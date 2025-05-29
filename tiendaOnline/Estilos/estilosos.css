@@ -1,0 +1,614 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+  background-color: #fff;
+}
+
+/* ---------- ENCABEZADO SUPERIOR ---------- */
+.header-superior {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  border-bottom: 1px solid #ccc;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.punto-rojo {
+  color: red;
+}
+
+/* Buscador */
+.buscador {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  max-width: 600px;
+  margin: 0 24px;
+}
+
+.buscador input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px 0 0 8px;
+  font-size: 14px;
+}
+
+.buscador button {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-left: none;
+  padding: 8px 12px;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+}
+
+.buscador img {
+  width: 16px;
+  height: 16px;
+}
+
+/* Acciones a la derecha */
+.acciones-superiores {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-carrito {
+  background-color: #ff5f46;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-carrito span {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding-left: 5px;
+}
+
+.usuario {
+  font-size: 14px;
+  text-align: right;
+}
+
+/* Barra de navegación */
+.barra-navegacion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ff5f46;
+  padding: 10px 24px;
+  color: white;
+}
+
+.barra-navegacion ul {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.barra-navegacion li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.ofertas {
+  font-weight: bold;
+}
+
+/* Contenido principal */
+main {
+  padding: 24px;
+}
+
+main h1 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* ---------- BARRA DE NAVEGACIÓN INFERIOR ---------- */
+.barra-naranja {
+  background-color: #ff5e4d;
+  color: white;
+  padding: 10px 30px;
+}
+
+.menu-nav {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+}
+
+.menu-nav li {
+  cursor: pointer;
+}
+
+.menu-nav .oferta {
+  margin-left: auto;
+  font-weight: bold;
+}
+
+/* ---------- CUERPO PÁGINA DETALLES DE USUARIO ---------- */
+.usuario-detalle {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.usuario-detalle h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.usuario-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 30px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+.usuario-info h3 {
+  font-size: 22px;
+  margin: 0 0 10px;
+}
+
+.usuario-info p {
+  margin: 8px 0;
+}
+
+.usuario-info a {
+  color: #000;
+  text-decoration: underline;
+}
+
+.usuario-foto {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.tabla-ordenes {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.tabla-ordenes th,
+.tabla-ordenes td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.tabla-ordenes a {
+  color: red;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.btn-detalle {
+  background-color: #ff5a5f;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.paginacion {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.paginacion button {
+  border: none;
+  background-color: transparent;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.paginacion .activo {
+  background-color: red;
+  color: white;
+}
+
+/* ---------- ESTILOS PARA ADMIN ---------- */
+.admin-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Tarjetas resumen */
+.tarjetas-dashboard {
+  display: flex;
+  gap: 24px;
+  margin: 20px 0;
+}
+
+.tarjeta-dashboard {
+  flex: 1;
+  background-color: #f9f9f9;
+  border-left: 6px solid #ff5e4d;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.tarjeta-dashboard h2 {
+  font-size: 16px;
+  color: #666;
+}
+
+.tarjeta-dashboard .valor {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Filtro de fecha */
+.filtro-fecha {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.filtro-fecha input[type="date"] {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Tablas */
+.tabla-admin {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.tabla-admin th,
+.tabla-admin td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.tabla-admin th {
+  background-color: #f5f5f5;
+}
+
+.tabla-admin a {
+  color: red;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.btn-admin {
+  background-color: #ff5a5f;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.btn-admin.secundario {
+  background-color: #666;
+}
+
+.btn-admin.verde {
+  background-color: #4CAF50;
+}
+
+.estado-activo {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.estado-inactivo {
+  color: #ff5a5f;
+  font-weight: bold;
+}
+
+/* Formularios */
+.formulario-admin {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.grupo-formulario {
+  margin-bottom: 20px;
+}
+
+.grupo-formulario label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.grupo-formulario input[type="text"],
+.grupo-formulario input[type="number"],
+.grupo-formulario textarea,
+.grupo-formulario select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.grupo-formulario textarea {
+  height: 100px;
+}
+
+.acciones-formulario {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Detalle de producto */
+.detalle-producto {
+  display: flex;
+  gap: 30px;
+}
+
+.imagen-producto {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.info-producto {
+  flex: 1;
+}
+
+.paginacion {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.paginacion button {
+  border: none;
+  background-color: transparent;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.paginacion .activo {
+  background-color: red;
+  color: white;
+}
+
+/*sección de usuarios */
+
+.seccion-usuarios {
+  margin-bottom: 40px;
+}
+
+.encabezado-seccion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.encabezado-seccion h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.btn-ver-todos {
+  background-color: #ff5a5f;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.orden-contenedor {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);
+  background-color: #fff;
+}
+
+.detalle-orden {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.detalle-orden h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.orden-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.orden-header h3 {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.orden-id {
+  color: #ff5f46;
+  margin-left: 8px;
+}
+
+.estado-total p {
+  margin: 4px 0;
+  font-weight: bold;
+}
+
+.estado-entregado {
+  color: green;
+}
+
+.tabla-productos {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tabla-productos th,
+.tabla-productos td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabla-productos th {
+  background-color: #f9f9f9;
+  font-weight: bold;
+}
+
+.id-prod {
+  color: #ff5f46;
+  font-weight: bold;
+}
+
+.img-prod {
+  margin-right: 8px;
+  font-size: 20px;
+}
+
+.usuario-detalle {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.usuario-detalle h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.buscador-usuarios {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.buscador-usuarios input {
+  flex-grow: 1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.buscador-usuarios button {
+  background-color: #ff5f46;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.tabla-ordenes {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.tabla-ordenes th,
+.tabla-ordenes td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.tabla-ordenes th {
+  background-color: #f5f5f5;
+}
+
+.nombre-usuario {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.foto-usuario {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.estado-activo {
+  color: green;
+  font-weight: bold;
+}
+
+.estado-inactivo {
+  color: red;
+  font-weight: bold;
+}
+
+.btn-detalle {
+  background-color: #ff5f46;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.btn-detalle:last-child {
+  margin-right: 0;
+}
