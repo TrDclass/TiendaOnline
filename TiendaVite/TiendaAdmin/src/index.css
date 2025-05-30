@@ -745,3 +745,251 @@ tbody tr td[colspan="3"] {
   width: 40px;
   height: 40px;
 }
+
+* Panel grande anuncio K*/
+.Panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;           
+  max-width: none;       
+  height: auto;
+}
+
+.Panel img {
+  width: 100%;           
+  max-width: 100%;       
+  height: auto;          
+  object-fit: contain;   
+  display: block;
+}
+
+.flechaizquierda, .flechaderecha {
+  position: absolute;
+  top: 35%;
+  transform: translateY(-50%);             
+  background-color: rgb(80, 73, 73);
+  color: white;
+  font-size: 24px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.flechaizquierda {
+  left: 0px;
+  border-radius: 0 20px 20px 0;
+}
+
+.flechaderecha {
+  right: 0px;
+  border-radius: 20px 0 0 20px;
+}
+
+.ContainerPuntos {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.Punto {
+  width: 12px;
+  height: 12px;
+  background-color: #bbb;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.Punto:hover {
+  background-color: #999;
+}
+
+.Punto.usado {
+  background-color: #ff5f46;
+}
+
+/* Categorias*/
+
+.ContainerCategoria {
+  display: flex;
+  gap: 100px;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.categorias {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.categorias img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #ff5f46;
+  padding: 15px;
+  box-sizing: content-box;
+  object-fit: contain;
+}
+
+.recomendadoscategoria {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+body h5 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 150px;
+  margin-bottom: 10px;
+  color: #4c4a4a;
+}
+
+
+/* Mas Vendidos*/
+.masvendidos {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centra todo horizontalmente */
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.ContainerProductos {
+  display: flex;
+  gap: 20px;
+}
+
+.producto-card {
+  width: 180px; /* Fijo para que quepan 5 en fila */
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.producto-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+
+.producto-card h4 {
+  font-size: 14px;
+  margin: 0;
+  font-weight: 700;
+  text-align: center;
+}
+
+.categoria {
+  color: #888;
+  font-size: 12px;
+  margin: 0;
+  text-align: center;
+}
+
+.precio {
+  color: #ff5f46;
+  font-weight: 700;
+  font-size: 14px;
+  margin: 0;
+  text-align: center;
+}
+
+.botonagregar {
+  border: 1px solid #ff5f46;
+  background: transparent;
+  color: #ff5f46;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 12px;
+  width: 100%; /* Botón ancho completo */
+  text-align: center;
+}
+
+.flechaizquierda2, .flechaderecha2 {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #4c4a4a;
+  user-select: none;
+  padding: 10px;
+}
+
+
+/* Contenido principal */
+main {
+  padding: 24px;
+}
+
+main h1 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/*Footer*/
+.footer {
+  width: 100vw;
+  max-width: 100%; 
+  box-sizing: border-box; 
+  background-color: #333;
+  color: white;
+  padding: 30px 60px;
+  position: relative; 
+  margin-top: 50px;
+  margin-bottom: auto;
+}
+
+.footer-separacion {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.footer-texto {
+  min-width: 180px;
+}
+
+.footer-texto h4 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.footer-texto ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-texto li {
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.iconos-redes {
+  margin-left: 50px;
+}
+
+.iconos-redes img {
+  width: 40px;
+  height: 40px;
+}
+
