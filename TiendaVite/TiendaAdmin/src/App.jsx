@@ -11,9 +11,10 @@ import DetalleOrden from './components/DetalleOrden'
 import DetalleUsuario from './components/DetalleUsuario'
 import ListadoCategorias from './components/ListadoCategorias'
 import Footer from './components/Footer'
+import PaginaPrincipal from './components/PaginaPrincipal'
 
 function App() {
-  const [vistaActual, setVistaActual] = useState('dashboard')
+  const [vistaActual, setVistaActual] = useState('principal')
 
   const cambiarVista = (nuevaVista) => {
     setVistaActual(nuevaVista)
@@ -23,6 +24,7 @@ function App() {
     <>
       <Header />
       <NavbarAdmin cambiarVista={cambiarVista} />
+      {vistaActual === 'principal' && <PaginaPrincipal cambiarVista={cambiarVista} />}
       {vistaActual === 'dashboard' && <DashboardAdmin cambiarVista={cambiarVista} />}
       {vistaActual === 'productos' && <ListaProductos cambiarVista={cambiarVista} />}
       {vistaActual === 'agregar-producto' && <AgregarProducto cambiarVista={cambiarVista} />}
