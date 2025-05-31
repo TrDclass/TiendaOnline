@@ -16,7 +16,7 @@ import Login from './components/PaginaUser/Login'
 import Registro from './components/PaginaUser/Registro'
 import Recuperarcontraseña from './components/PaginaUser/RecuperarContraseña'
 import NavbarUser from './components/PaginaUser/NavbarUser'
-
+import Todo from './Todo'
 function App() {
   const [vistaActual, setVistaActual] = useState('principal')
   const [vistaNav, setvistaNav] = useState('navuser')
@@ -34,6 +34,7 @@ function App() {
       <Header cambiarVista={cambiarVista} navegador={navegador} />
       {vistaNav === 'navadmin' &&<NavbarAdmin cambiarVista={cambiarVista} />}
       {vistaNav === 'navuser' && <NavbarUser cambiarVista={cambiarVista} />}
+      {vistaActual === 'todo' && <Todo cambiarVista={cambiarVista} />}
       {vistaActual === 'principal' && <PaginaPrincipal cambiarVista={cambiarVista} />}
       {vistaActual === 'dashboard' && <DashboardAdmin cambiarVista={cambiarVista} />}
       {vistaActual === 'productos' && <ListaProductos cambiarVista={cambiarVista} />}
