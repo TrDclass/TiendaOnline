@@ -1,4 +1,4 @@
-function Header() {
+function Header({ cambiarVista }) {
   return (
     <header className="header-superior">
       <div className="logo">
@@ -12,7 +12,7 @@ function Header() {
       </div>
       <div className="acciones-superiores">
         <div className="usuario">
-          👤 Admin<br />
+        <a onClick={() => cambiarVista('login')}>👤 Admin</a><br />
           <small>Panel de control</small>
         </div>
       </div>
