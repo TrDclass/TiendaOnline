@@ -10,7 +10,7 @@ function Categorias() {
       <section>
         <h5>Explora las categorías</h5>
         <div className="recomendadoscategoria">
-          <button className="flechaizquierda2">X</button>  
+          <button className="flechaizquierda2">&lt;</button>  
           <div className="ContainerCategoria">
             {categorias.map((cat, index) => (
               <div key={index} className="categorias">
@@ -19,7 +19,7 @@ function Categorias() {
               </div>
           ))}
           </div>
-          <button className="flechaderecha2">X</button>
+          <button className="flechaderecha2">&gt;</button>
         </div>
       </section>
     );
