@@ -994,3 +994,237 @@ main h1 {
   height: 40px;
 }
 
+/*Login*/
+.contenido-login {
+  max-width: 400px;
+  margin: 60px auto;
+  padding: 32px;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.contenido-login h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 22px;
+  color: #333;
+}
+
+.form-login {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-login label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #444;
+}
+
+.form-login input {
+  padding: 10px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.campo-password {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding-right: 10px;
+  margin-top: 6px;
+  background: white;
+}
+
+.campo-password input {
+  border: none;
+  outline: none;
+  flex: 1;
+  padding: 10px;
+}
+
+.icono-ojo {
+  cursor: pointer;
+  font-size: 16px;
+  color: #666;
+}
+
+.btn-principal {
+  padding: 12px;
+  background-color: #ff5f46;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-principal:hover {
+  background-color: #e54b35;
+}
+
+.acciones-secundarias {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.acciones-secundarias a {
+  color: #ff5f46;
+  text-decoration: none;
+}
+
+.acciones-secundarias .enlace-olvido {
+  font-weight: bold;
+}
+
+/*Registro*/
+.contenido-registro {
+  max-width: 600px;
+  margin: 60px auto;
+  padding: 40px;
+  border-radius: 16px;
+  background-color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.contenido-registro h2 {
+  text-align: left;
+  margin-bottom: 24px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #222;
+}
+
+.form-registro {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fila-campos {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.fila-campos label {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #333;
+}
+
+.fila-campos input {
+  padding: 10px;
+  margin-top: 6px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+}
+
+.fila-campos input::placeholder {
+  color: #bbb;
+}
+
+.campo-password {
+  position: relative;
+}
+
+.btn-contenedor {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.btn-registro {
+  padding: 12px 40px;
+  background-color: #ff5f46;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-registro:hover {
+  background-color: #e54b35;
+}
+
+/*OlvidoContraseña*/
+.contenido-recuperarr {
+  max-width: 600px;
+  margin: 60px auto;
+  padding: 40px;
+  border-radius: 16px;
+  background-color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.form-registroo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.form-registroo h2 {
+  text-align: left;
+  margin-bottom: 24px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #222;
+}
+.campo-correoo {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+.campo-correoo label{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #333;
+}
+.campo-correoo input{
+  padding: 10px;
+  margin-top: 6px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+}
+  .btn-contenerr {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.btn-recuperarr {
+  padding: 12px 40px;
+  background-color: #ff5f46;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-recuperarr:hover {
+  background-color: #e54b35;
+}
