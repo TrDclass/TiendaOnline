@@ -5,7 +5,7 @@ function Header({ cambiarVista, navegador }) {
         Mi-Tiendita <span className="punto-rojo">●</span>
       </div>
       <div className="btn-admin secundario">
-        <button className="btn-admin secundario" onClick={() => cambiarVista('login')}>
+        <button className="btn-admin secundario" onClick={() => cambiarVista('todo')}>
           Todo
         </button>
       </div>
