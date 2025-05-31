@@ -13,7 +13,7 @@ function DashboardAdmin({ cambiarVista }) {
 
       <div className="tarjetas-dashboard">
         <div className="tarjeta-dashboard">
-          <h2>Ventas total</h2>
+          <h2>Ventas totales</h2>
           <div className="valor">S/ 12,450.00</div>
         </div>
         <div className="tarjeta-dashboard">
