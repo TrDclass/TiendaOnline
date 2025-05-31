@@ -1,4 +1,4 @@
-function Header({ cambiarVista }) {
+function Header({ cambiarVista, navegador }) {
   return (
     <header className="header-superior">
       <div className="logo" onClick={() => cambiarVista('principal')}>
@@ -16,12 +16,12 @@ function Header({ cambiarVista }) {
         </button>
       </div>
       <div className="btn-admin verde">
-        <button className="btn-admin verde" onClick={() => cambiarVista('login')}>
+        <button className="btn-admin verde" onClick={() => navegador('navuser')}>
           Modo Usuario
         </button>
       </div>
       <div className="btn-admin">
-        <button className="btn-admin" onClick={() => cambiarVista('login')}>
+        <button className="btn-admin" onClick={() => navegador('navadmin')}>
           Modo Admin
         </button>
       </div>
