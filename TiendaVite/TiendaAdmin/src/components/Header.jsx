@@ -1,8 +1,13 @@
 function Header({ cambiarVista }) {
   return (
     <header className="header-superior">
-      <div className="logo">
+      <div className="logo" onClick={() => cambiarVista('principal')}>
         Mi-Tiendita <span className="punto-rojo">●</span>
+      </div>
+      <div className="btn-admin secundario">
+        <button className="btn-admin secundario" onClick={() => cambiarVista('login')}>
+          Todo
+        </button>
       </div>
       <div className="buscador">
         <input type="text" placeholder="Buscar un producto..." />
@@ -10,10 +15,20 @@ function Header({ cambiarVista }) {
           <img src="/img/icono.png" alt="Buscar" />
         </button>
       </div>
+      <div className="btn-admin verde">
+        <button className="btn-admin verde" onClick={() => cambiarVista('login')}>
+          Modo Usuario
+        </button>
+      </div>
+      <div className="btn-admin verde">
+        <button className="btn-admin verde" onClick={() => cambiarVista('login')}>
+          Modo Admin
+        </button>
+      </div>
       <div className="acciones-superiores">
         <div className="usuario">
-        <a onClick={() => cambiarVista('login')}>👤 Admin</a><br />
-          <small>Panel de control</small>
+          <a onClick={() => cambiarVista('login')}>👤 Usuario</a><br />
+          <small>Registrar cuenta</small>
         </div>
       </div>
     </header>
