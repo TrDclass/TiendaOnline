@@ -20,12 +20,15 @@ function Header({ cambiarVista }) {
           Modo Usuario
         </button>
       </div>
-      <div className="btn-admin verde">
-        <button className="btn-admin verde" onClick={() => cambiarVista('login')}>
+      <div className="btn-admin">
+        <button className="btn-admin" onClick={() => cambiarVista('login')}>
           Modo Admin
         </button>
       </div>
       <div className="acciones-superiores">
+        <button className="btn-carrito">
+          🛒 Carrito <span>S/ 100.00</span>
+        </button>
         <div className="usuario">
           <a onClick={() => cambiarVista('login')}>👤 Usuario</a><br />
           <small>Registrar cuenta</small>

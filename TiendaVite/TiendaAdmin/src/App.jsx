@@ -11,10 +11,10 @@ import DetalleOrden from './components/PaginaAdmin/DetalleOrden'
 import DetalleUsuario from './components/PaginaAdmin/DetalleUsuario'
 import ListadoCategorias from './components/PaginaAdmin/ListadoCategorias'
 import Footer from './components/Footer'
-import PaginaPrincipal from './components/PaginaPrincipal'
-import Login from './components/Login'
-import Registro from './components/Registro'
-import Recuperarcontraseña from './components/RecuperarContraseña'
+import PaginaPrincipal from './components/PaginaUser/PaginaPrincipal'
+import Login from './components/PaginaUser/Login'
+import Registro from './components/PaginaUser/Registro'
+import Recuperarcontraseña from './components/PaginaUser/RecuperarContraseña'
 
 function App() {
   const [vistaActual, setVistaActual] = useState('principal')
