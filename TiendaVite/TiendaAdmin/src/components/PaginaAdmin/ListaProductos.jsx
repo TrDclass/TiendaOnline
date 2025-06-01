@@ -53,6 +53,13 @@ function ListaProductos({ cambiarVista }) {
               <td>
                 <button className="btn-admin" onClick={() => cambiarVista('detalle-producto')}>Editar</button>
                 <button className="btn-admin secundario">Desactivar</button>
+                <button
+                    className="btn-eliminar"
+                    title="Eliminar"
+                    onClick={() => handleEliminar(cat.id)}
+                  >
+                    🗑️
+                  </button>
               </td>
             </tr>
           ))}
