@@ -5,7 +5,7 @@ function DetalleProducto({ cambiarVista }) {
 
       <div className="detalle-producto">
         <div>
-          <img src="/productoZapatillas.webp" alt="Producto" className="imagen-producto" />
+          <img src='..\public\img\productoZapatillas.webp' alt="Producto" className="imagen-producto" />
           <div style={{ marginTop: '10px' }}>
             <button className="btn-admin">Cambiar Imagen</button>
           </div>
