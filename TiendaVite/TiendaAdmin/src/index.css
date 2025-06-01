@@ -1195,7 +1195,6 @@ main h1 {
   cursor: pointer;
 }
 
-
 /* Contenedor general: menú lateral + productos KKK*/
 .contenedor-categorias-productos {
   display: flex;
@@ -1206,7 +1205,7 @@ main h1 {
 }
 
 /* Menú lateral */
-.menu-lateral {
+.contenedor-categorias-productos .menu-lateral {
   min-width: 230px;
   background: #fff;
   border: 1px solid #f0f0f0;
@@ -1215,13 +1214,13 @@ main h1 {
   box-shadow: 0 1px 5px rgb(0 0 0 / 0.05);
 }
 
-.menu-lateral ul {
+.contenedor-categorias-productos .menu-lateral ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.menu-lateral li {
+.contenedor-categorias-productos .menu-lateral li {
   padding: 15px 28px;
   font-size: 15px;
   color: #333;
@@ -1230,14 +1229,14 @@ main h1 {
   transition: background 0.15s, color 0.15s;
 }
 
-.menu-lateral li.activo, .menu-lateral li:hover {
+.contenedor-categorias-productos .menu-lateral li.activo, .menu-lateral li:hover {
   background: #ff5f46;
   color: #fff;
   font-weight: bold;
 }
 
 /* Grilla de productos */
-.productos-grid {
+.main-productos .productos-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);  /* 4 columnas, cambia a 3 si tu pantalla es chica */
   gap: 26px;
@@ -1264,7 +1263,7 @@ main h1 {
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.14);
 }
 
-.main-productos{
+.contenedor-categorias-productos .main-productos{
   width: 100%;
   padding-left: 36px;  
 }
@@ -1481,7 +1480,7 @@ main h1 {
 .masvendidos .ProductosSimilares {
   display: flex;
   align-items: center;
-  justify-content: center; /* Centra todo horizontalmente */
+  justify-content: center;
   gap: 20px;
   max-width: 1000px;
   margin: 0 auto;
@@ -1493,7 +1492,8 @@ main h1 {
 }
 
 .masvendidos .producto-card {
-  width: 180px; /* Fijo para que quepan 5 en fila */
+  width: 180px;
+  min-height: 280px;
   border: 1px solid #eee;
   border-radius: 8px;
   padding: 12px;
@@ -1542,6 +1542,6 @@ main h1 {
   cursor: pointer;
   font-weight: 700;
   font-size: 12px;
-  width: 100%; /* Botón ancho completo */
+  width: 100%;
   text-align: center;
 }
