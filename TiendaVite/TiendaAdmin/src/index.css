@@ -18,10 +18,12 @@ body {
 .logo {
   font-size: 20px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .punto-rojo {
   color: red;
+  cursor: pointer;
 }
 
 /* Buscador */
@@ -81,6 +83,7 @@ body {
 .usuario {
   font-size: 14px;
   text-align: right;
+  cursor: pointer;
 }
 
 /* Barra de navegación */
