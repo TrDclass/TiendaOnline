@@ -25,6 +25,7 @@ import CheckoutMetodoPago from './components/PaginaUser/CheckoutMetodoPago/Check
 import CheckoutPago1 from './components/PaginaUser/CheckoutPago1/CheckoutPago1'
 import CheckoutPago2 from './components/PaginaUser/CheckoutPago2/CheckoutPago2'
 import PedidoCompleto from './components/PaginaUser/PedidoCompleto/PedidoCompleto'
+import ProductosxCategoria from './components/PaginaUser/Categorias/ProductosxCategoria'
 //
 function App() {
   const [vistaActual, setVistaActual] = useState('principal')
@@ -64,6 +65,7 @@ function App() {
       {vistaActual === 'pago1' && <CheckoutPago1 cambiarVista={cambiarVista} />}
       {vistaActual === 'pago2' && <CheckoutPago2 cambiarVista={cambiarVista} />}
       {vistaActual === 'pedidocompleto' && <PedidoCompleto cambiarVista={cambiarVista} />}
+      {vistaActual === 'PxCategoria' && <ProductosxCategoria cambiarVista={cambiarVista} />}
       
       
       <Footer/>
