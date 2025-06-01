@@ -18,6 +18,14 @@ import Recuperarcontraseña from './components/PaginaUser/RecuperarContraseña'
 import ContenidoUsuario from './components/PaginaUser/OrdenUsuario'
 import NavbarUser from './components/PaginaUser/NavbarUser'
 import Todo from './Todo'
+//
+import Carrito from './components/PaginaUser/Carrito/Carrito'
+import Checkout from './components/PaginaUser/Checkout/Checkout'
+import CheckoutMetodoPago from './components/PaginaUser/CheckoutMetodoPago/CheckoutMetodoPago'
+import CheckoutPago1 from './components/PaginaUser/CheckoutPago1/CheckoutPago1'
+import CheckoutPago2 from './components/PaginaUser/CheckoutPago2/CheckoutPago2'
+import PedidoCompleto from './components/PaginaUser/PedidoCompleto/PedidoCompleto'
+//
 function App() {
   const [vistaActual, setVistaActual] = useState('principal')
   const [vistaNav, setvistaNav] = useState('navuser')
@@ -50,6 +58,14 @@ function App() {
       {vistaActual === 'registro' && <Registro cambiarVista={cambiarVista} />}
       {vistaActual === 'recuperarcontraseña' && <Recuperarcontraseña cambiarVista={cambiarVista} />}
       {vistaActual === 'orden-user' && <ContenidoUsuario cambiarVista={cambiarVista} />}
+      {vistaActual === 'carrito' && <Carrito cambiarVista={cambiarVista} />}
+      {vistaActual === 'checkout' && <Checkout cambiarVista={cambiarVista} />}
+      {vistaActual === 'checkoutmetodopago' && <CheckoutMetodoPago cambiarVista={cambiarVista} />}
+      {vistaActual === 'pago1' && <CheckoutPago1 cambiarVista={cambiarVista} />}
+      {vistaActual === 'pago2' && <CheckoutPago2 cambiarVista={cambiarVista} />}
+      {vistaActual === 'pedidocompleto' && <PedidoCompleto cambiarVista={cambiarVista} />}
+      
+      
       <Footer/>
     </>
     
