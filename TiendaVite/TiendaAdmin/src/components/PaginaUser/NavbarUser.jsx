@@ -5,7 +5,6 @@ function NavbarUser({ cambiarVista }) {
         <li><a onClick={() => cambiarVista('PxCategoria')}> ☰ Categorías</a></li>
         <li><a onClick={() => cambiarVista('DesProducto')}>Productos</a></li>
         <li><a>Nosotros</a></li>
-        <li><a onClick={() => cambiarVista('carrito')}>Carrito</a></li>
         <li><a onClick={() => cambiarVista('checkout')}>Checkout</a></li>
         <li><a onClick={() => cambiarVista('checkoutmetodopago')}>Metodo De Pago</a></li>
         <li><a onClick={() => cambiarVista('pago1')}>Pago1</a></li>

@@ -26,9 +26,10 @@ function Header({ cambiarVista, navegador }) {
         </button>
       </div>
       <div className="acciones-superiores">
-        <button className="btn-carrito">
-          🛒 Carrito <span>S/ 100.00</span>
-        </button>
+        <div className="btn-carrito">
+          <a onClick={() => cambiarVista('carrito')}>🛒 Carrito <span>S/ 100.00</span></a><br />
+        </div>
+
         <div className="usuario">
           <a onClick={() => cambiarVista('login')}>👤 Usuario</a><br />
           <small onClick={() => cambiarVista('registro')}>Registrar cuenta</small>
