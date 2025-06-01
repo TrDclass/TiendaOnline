@@ -22,7 +22,7 @@ function Todo({ cambiarVista }) {
         { nombre: "Login (y validación)", vista: "login" },
         { nombre: "Registro de usuario", vista: "registro" },
         { nombre: "Recuperación de Contraseña", vista: "recuperarcontraseña" },
-        { nombre: "Listado de Órdenes (usuario)", vista: "ordenes" },
+        { nombre: "Listado de Órdenes (usuario)", vista: "orden-user" },
       ],
     },
     {
