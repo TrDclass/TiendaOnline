@@ -33,7 +33,7 @@ function Login({ cambiarVista }) {
   
           <div className="acciones-secundarias">
             <a href="#" onClick={() => cambiarVista('registro')}>Registrarme</a>
-            <a href="#" className="enlace-olvido" onClick={() => cambiarVista('recuperarcontraseña')}> 
+            <a href="#" onClick={() => cambiarVista('recuperarcontraseña')}> 
               Olvidé mi contraseña
             </a>
           </div>
