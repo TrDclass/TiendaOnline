@@ -11,9 +11,12 @@ function Todo({ cambiarVista }) {
     {
       alumno: "Alumno 2",
       funcionalidades: [
-        { nombre: "Carrito de compras", vista: null },
-        { nombre: "Checkout", vista: null },
-        { nombre: "Pedido completo (Gracias por compra)", vista: null },
+        { nombre: "Carrito de compras", vista: "carrito" },
+        { nombre: "Checkout", vista: "checkout" },
+        { nombre: "Checkout Metodos de Pago ", vista: "checkoutmetodopago" },
+        { nombre: "Pago1", vista: "pago1" },
+        { nombre: "Pago2", vista: "pago2" },
+        { nombre: "Pedido completo (Gracias por compra)", vista: "pedidocompleto" },
       ],
     },
     {
