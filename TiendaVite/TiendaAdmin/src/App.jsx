@@ -15,6 +15,7 @@ import PaginaPrincipal from './components/PaginaUser/PaginaPrincipal'
 import Login from './components/PaginaUser/Login'
 import Registro from './components/PaginaUser/Registro'
 import Recuperarcontraseña from './components/PaginaUser/RecuperarContraseña'
+import ContenidoUsuario from './components/PaginaUser/OrdenUsuario'
 import NavbarUser from './components/PaginaUser/NavbarUser'
 import Todo from './Todo'
 function App() {
@@ -49,6 +50,7 @@ function App() {
       {vistaActual === 'registro' && <Registro cambiarVista={cambiarVista} />}
       {vistaActual === 'recuperarcontraseña' && <Recuperarcontraseña cambiarVista={cambiarVista} />}
       {vistaActual === 'recuperarcontraseña' && <Recuperarcontraseña cambiarVista={cambiarVista} />}
+      {vistaActual === 'orden-user' && <ContenidoUsuario cambiarVista={cambiarVista} />}
       <Footer/>
     </>
     
