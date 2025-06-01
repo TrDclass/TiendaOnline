@@ -1,4 +1,4 @@
-function MasVendidos() {
+function MasVendidos1() {
   const productos = [
     { nombre: "Uvas", categoria: "Frutas y verduras", precio: "S/11.99 X KG", img: "../imgC/Uva.png" },
     { nombre: "Pera", categoria: "Frutas y verduras", precio: "S/6.49 X KG", img: "../imgC/Pera.png" },
@@ -10,11 +10,11 @@ function MasVendidos() {
   return (
     <section>
       <h5>Productos similares</h5>
-      <div className="ProductosSimilares">
+      <div className="ProductosSimilares1">
         <button className="flechaizquierda2">&lt;</button>
-        <div className="ContainerProductos">
+        <div className="ContainerProductos1">
           {productos.map((prod, i) => (
-            <div key={i} className="producto-card">
+            <div key={i} className="producto-card1">
               <img src={prod.img} alt={prod.nombre} />
               <h4>{prod.nombre}</h4>
               <p className="categoria">{prod.categoria}</p>
@@ -29,4 +29,4 @@ function MasVendidos() {
   );
 }
 
-export default MasVendidos
+export default MasVendidos1

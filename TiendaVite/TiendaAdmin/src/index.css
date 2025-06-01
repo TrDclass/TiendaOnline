@@ -1238,8 +1238,7 @@ main h1 {
 /* Grilla de productos */
 .main-productos .productos-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);  /* 4 columnas, cambia a 3 si tu pantalla es chica */
-  gap: 26px;
+  grid-template-columns: repeat(4, 1fr);
   width: 100%;
   justify-items: center;
 }
@@ -1257,6 +1256,7 @@ main h1 {
   width: 185px;
   min-height: 260px;
   transition: box-shadow 0.2s;
+  gap: 6px;
 }
 
 .main-productos .producto-card:hover {
@@ -1534,6 +1534,78 @@ main h1 {
 }
 
 .masvendidos .botonagregar {
+  border: 1px solid #ff5f46;
+  background: transparent;
+  color: #ff5f46;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 12px;
+  width: 100%;
+  text-align: center;
+}
+
+
+/* Mas Vendidos1 KKK*/
+.ProductosSimilares1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.ProductosSimilares1 .ContainerProductos1 {
+  display: flex;
+  gap: 20px;
+}
+
+.ProductosSimilares1 .producto-card1 {
+  width: 180px;
+  min-height: 280px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.ProductosSimilares1 .producto-card1 img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+
+.ProductosSimilares1 .producto-card1 h4 {
+  font-size: 14px;
+  margin: 0;
+  font-weight: 700;
+  text-align: center;
+}
+
+.ProductosSimilares1 .categoria {
+  color: #888;
+  font-size: 12px;
+  margin: 0;
+  text-align: center;
+}
+
+.ProductosSimilares1 .precio {
+  color: #ff5f46;
+  font-weight: 700;
+  font-size: 14px;
+  margin: 0;
+  text-align: center;
+}
+
+.ProductosSimilares1 .botonagregar {
   border: 1px solid #ff5f46;
   background: transparent;
   color: #ff5f46;
