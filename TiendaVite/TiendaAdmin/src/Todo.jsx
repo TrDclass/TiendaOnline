@@ -5,7 +5,8 @@ function Todo({ cambiarVista }) {
       alumno: "Alumno 1",
       funcionalidades: [
         { nombre: "Página Principal", vista: "principal" },
-        { nombre: "Detalle de producto (antes de agregar a carrito)", vista: "detalle-producto" },
+        { nombre: "Categorias", vista: "PxCategoria" },
+        { nombre: "Detalle de producto (antes de agregar a carrito)", vista: "DesProducto" },
       ],
     },
     {
