@@ -1195,6 +1195,7 @@ main h1 {
   cursor: pointer;
 }
 
+
 /* Contenedor general: menú lateral + productos KKK*/
 .contenedor-categorias-productos {
   display: flex;
@@ -1245,7 +1246,7 @@ main h1 {
 }
 
 /* Tarjeta de producto */
-.producto-card {
+.main-productos .producto-card {
   background: #fff;
   border: 1px solid #eee;
   border-radius: 12px;
@@ -1259,7 +1260,7 @@ main h1 {
   transition: box-shadow 0.2s;
 }
 
-.producto-card:hover {
+.main-productos .producto-card:hover {
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.14);
 }
 

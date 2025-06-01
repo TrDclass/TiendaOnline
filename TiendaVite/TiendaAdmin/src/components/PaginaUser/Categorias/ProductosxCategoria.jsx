@@ -16,7 +16,7 @@ function ProductosxCategoria() {
     { nombre: "Mix de frutas", categoria: "Frutas y verduras", precio: "S/5.69 x un", img: "../imgC/EFrutas.png" },
     { nombre: "Manzana", categoria: "Frutas y verduras", precio: "S/3.80 X KG", img: "../public/imgC/manzana verde.png" },
     { nombre: "Naranja", categoria: "Frutas y verduras", precio: "S/3.69 X KG", img: "../public/imgC/naranja.png" },
-    { nombre: "Piña", categoria: "Frutas y verduras", precio: "S/2.79 X KG", img: "../imgC/public/piña.png" },
+    { nombre: "Piña", categoria: "Frutas y verduras", precio: "S/2.79 X KG", img: "../public/imgC/piña.png" },
     { nombre: "Zanahoria", categoria: "Frutas y verduras", precio: "S/2.99 X KG", img: "../public/img/zanahoria.png" },
     { nombre: "Sandía", categoria: "Frutas y verduras", precio: "S/1.99 X KG", img: "../public/imgC/sandia.png" },
     { nombre: "Uvas", categoria: "Frutas y verduras", precio: "S/11.99 X KG", img: "../public/imgC/uva.png" },
