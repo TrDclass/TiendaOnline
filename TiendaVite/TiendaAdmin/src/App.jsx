@@ -49,7 +49,6 @@ function App() {
       {vistaActual === 'login' && <Login cambiarVista={cambiarVista} />}
       {vistaActual === 'registro' && <Registro cambiarVista={cambiarVista} />}
       {vistaActual === 'recuperarcontraseña' && <Recuperarcontraseña cambiarVista={cambiarVista} />}
-      {vistaActual === 'recuperarcontraseña' && <Recuperarcontraseña cambiarVista={cambiarVista} />}
       {vistaActual === 'orden-user' && <ContenidoUsuario cambiarVista={cambiarVista} />}
       <Footer/>
     </>
