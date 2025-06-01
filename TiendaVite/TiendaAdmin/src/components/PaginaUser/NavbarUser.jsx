@@ -3,8 +3,8 @@ function NavbarUser({ cambiarVista }) {
     <nav className="barra-navegacion">
       <ul>
         <li><a onClick={() => cambiarVista('PxCategoria')}> ☰ Categorías</a></li>
-        <li><a onClick={() => cambiarVista('productos')}>Productos</a></li>
-        <li><a onClick={() => cambiarVista('DesProducto')}>Nosotros</a></li>
+        <li><a onClick={() => cambiarVista('DesProducto')}>Productos</a></li>
+        <li><a>Nosotros</a></li>
         <li><a onClick={() => cambiarVista('carrito')}>Carrito</a></li>
         <li><a onClick={() => cambiarVista('checkout')}>Checkout</a></li>
         <li><a onClick={() => cambiarVista('checkoutmetodopago')}>Metodo De Pago</a></li>
