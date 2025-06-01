@@ -12,7 +12,7 @@ function MasVendidos() {
     <section>
       <h5>Lo más vendido</h5>
       <div className="masvendidos">
-        <button className="flechaizquierda2">X</button>
+        <button className="flechaizquierda2">&lt;</button>
         <div className="ContainerProductos">
           {productos.map((prod, i) => (
             <div key={i} className="producto-card">
@@ -24,7 +24,7 @@ function MasVendidos() {
             </div>
           ))}
         </div>
-        <button className="flechaderecha2">X</button>
+        <button className="flechaderecha2">&gt;</button>
       </div>
     </section>
   );

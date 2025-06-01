@@ -3,11 +3,11 @@ function Panel() {
           <div>
             
           <div className="ContainerPanel">
-          <button className="flechaizquierda">X</button>
+          <button className="flechaizquierda">&lt;</button>
           <div className="Panel">
            <img src="https://plazavea.vteximg.com.br/arquivos/HP-BANNER-PRINCIPAL-FOOD-D-28-MAY-2025-A.webp?v=638839796599300000" alt="portada"/>
           </div>
-          <button className="flechaderecha">X</button>
+          <button className="flechaderecha">&gt;</button>
           </div>
 
           <div className="ContainerPuntos">
