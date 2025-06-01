@@ -14,15 +14,15 @@ function ProductosxCategoria() {
     { nombre: "Zanahoria", categoria: "Frutas y verduras", precio: "S/2.99 X KG", img: "../img/Zanahoria.png" },
     { nombre: "Papaya", categoria: "Frutas y verduras", precio: "S/5.99 X KG", img: "../imgC/Papaya.png" },
     { nombre: "Mix de frutas", categoria: "Frutas y verduras", precio: "S/5.69 x un", img: "../imgC/EFrutas.png" },
-    { nombre: "Manzana", categoria: "Frutas y verduras", precio: "S/3.80 X KG", img: "../imgC/manzana verde.png" },
-    { nombre: "Naranja", categoria: "Frutas y verduras", precio: "S/3.69 X KG", img: "../imgC/naranja.png" },
-    { nombre: "Piña", categoria: "Frutas y verduras", precio: "S/2.79 X KG", img: "../imgC/piña.png" },
-    { nombre: "Zanahoria", categoria: "Frutas y verduras", precio: "S/2.99 X KG", img: "../img/zanahoria.png" },
-    { nombre: "Sandía", categoria: "Frutas y verduras", precio: "S/1.99 X KG", img: "../imgC/sandia.png" },
-    { nombre: "Uvas", categoria: "Frutas y verduras", precio: "S/11.99 X KG", img: "../imgC/uva.png" },
-    { nombre: "Pera", categoria: "Frutas y verduras", precio: "S/6.49 X KG", img: "../imgC/pera.png" },
-    { nombre: "Manzana roja", categoria: "Frutas y verduras", precio: "S/8.79 X KG", img: "../imgC/manzana.png" },
-    { nombre: "Pithaya", categoria: "Frutas y verduras", precio: "S/5.89 X KG", img: "../imgC/pitahaya.png" }
+    { nombre: "Manzana", categoria: "Frutas y verduras", precio: "S/3.80 X KG", img: "../public/imgC/manzana verde.png" },
+    { nombre: "Naranja", categoria: "Frutas y verduras", precio: "S/3.69 X KG", img: "../public/imgC/naranja.png" },
+    { nombre: "Piña", categoria: "Frutas y verduras", precio: "S/2.79 X KG", img: "../imgC/public/piña.png" },
+    { nombre: "Zanahoria", categoria: "Frutas y verduras", precio: "S/2.99 X KG", img: "../public/img/zanahoria.png" },
+    { nombre: "Sandía", categoria: "Frutas y verduras", precio: "S/1.99 X KG", img: "../public/imgC/sandia.png" },
+    { nombre: "Uvas", categoria: "Frutas y verduras", precio: "S/11.99 X KG", img: "../public/imgC/uva.png" },
+    { nombre: "Pera", categoria: "Frutas y verduras", precio: "S/6.49 X KG", img: "../public/imgC/pera.png" },
+    { nombre: "Manzana roja", categoria: "Frutas y verduras", precio: "S/8.79 X KG", img: "../public/imgC/manzana.png" },
+    { nombre: "Pithaya", categoria: "Frutas y verduras", precio: "S/5.89 X KG", img: "../public/imgC/pitahaya.png" }
   ];
 
   return (

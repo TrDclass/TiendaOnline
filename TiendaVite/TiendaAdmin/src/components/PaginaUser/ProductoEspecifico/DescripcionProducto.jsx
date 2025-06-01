@@ -6,7 +6,7 @@ function DescripcionProducto() {
       </div>
         <div className="descripcion-producto-card">
             <div className="desc-prod-img">
-            <img src="../imgC/palta.png" alt="Palta" />
+            <img src="../public/imgC/palta.png" alt="Palta" />
             </div>
             <div className="desc-prod-info">
             <h2>Palta</h2>

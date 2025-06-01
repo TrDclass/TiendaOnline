@@ -1265,3 +1265,273 @@ main h1 {
   padding: 8px;
   cursor: pointer;
 }
+
+/* Contenedor general: menú lateral + productos KKK*/
+.contenedor-categorias-productos {
+  display: flex;
+  align-items: flex-start;
+  padding: 24px 0 40px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Menú lateral */
+.menu-lateral {
+  min-width: 230px;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 10px;
+  padding: 12px 0;
+  box-shadow: 0 1px 5px rgb(0 0 0 / 0.05);
+}
+
+.menu-lateral ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-lateral li {
+  padding: 15px 28px;
+  font-size: 15px;
+  color: #333;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.menu-lateral li.activo, .menu-lateral li:hover {
+  background: #ff5f46;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Grilla de productos */
+.productos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);  /* 4 columnas, cambia a 3 si tu pantalla es chica */
+  gap: 26px;
+  width: 100%;
+  justify-items: center;
+}
+
+/* Tarjeta de producto */
+.producto-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 18px 12px 16px 12px;
+  width: 185px;
+  min-height: 260px;
+  transition: box-shadow 0.2s;
+}
+
+.producto-card:hover {
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.14);
+}
+
+.main-productos{
+  width: 100%;
+  padding-left: 36px;  
+}
+
+/* Imagen de producto */
+.producto-card img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  margin-bottom: 13px;
+}
+
+/* Título producto */
+.producto-card h4 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 3px 0;
+  text-align: center;
+}
+
+/* Categoría y precio */
+.producto-card .categoria {
+  color: #888;
+  font-size: 13px;
+  margin: 0;
+  text-align: center;
+}
+
+.producto-card .precio {
+  color: #ff5f46;
+  font-weight: 700;
+  font-size: 13px;
+  margin: 8px 0 0 0;
+  text-align: center;
+}
+
+/* Botón agregar */
+.boton-agregar {
+  border: 1px solid #ff5f46;
+  background: transparent;
+  color: #ff5f46;
+  padding: 6px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+  margin-top: 10px;
+  width: 100%;
+  transition: background 0.15s, color 0.15s;
+}
+
+.boton-agregar:hover {
+  background: #ff5f46;
+  color: #fff;
+}
+
+/*Indice*/
+.indice {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  margin-top: 32px;
+  margin-bottom: 24px;
+  gap: 10px;
+}
+
+.indicebtn {
+  border: none;
+  background: none;
+  color: #333;
+  font-size: 20px;
+  padding: 5px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.indicebtn.active, .indicebtn:hover {
+  background: #ff6b57;
+  color: #fff;
+  font-weight: bold;
+}
+
+.pag-dots {
+  font-size: 22px;
+  color: #666;
+  padding: 0 5px;
+  user-select: none;
+}
+
+/*Producto Especifico KKK*/
+.descripcion-producto-main {
+  width: 100%;
+  margin-top: 24px;
+}
+
+.breadcrumb {
+  font-size: 20px;
+  padding-left: 24px;
+  margin-top: 70px;
+  margin-bottom: 70px;
+  margin-left: 60px;
+  color: #2a2a2a;
+}
+
+.descripcion-producto-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 2px solid #ebe7e7;
+  border-radius: 13px;
+  padding: 38px 0;
+  max-width: 70vw;
+  margin: 0 auto;
+  min-height: 200px;
+}
+
+.desc-prod-img {
+  flex: 0 0 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 320px;
+  min-height: 320px;
+  padding: 20px 10px 20px 30px;
+}
+
+.desc-prod-img img {
+  max-width: 320px;
+  max-height: 260px;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.desc-prod-info {
+  flex: 1;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.desc-prod-info h2 {
+  font-size: 40px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.desc-prod-info hr {
+  margin: 14px 0 18px 0;
+  border: none;
+  border-top: 2px solid #ececec;
+  width: 100%;
+}
+
+.desc-prod-info h3 {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+}
+
+.desc-prod-text {
+  font-size: 17px;
+  color: #2a2a2a;
+  max-width: 600px;
+  margin-bottom: 34px;
+}
+
+.desc-prod-bottom {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  margin-top: 20px;
+}
+
+.desc-prod-precio {
+  color: #ff6b57;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.desc-prod-agregar {
+  background: #ff6b57;
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  font-size: 20px;
+  padding: 13px 38px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.14s;
+}
+
+.desc-prod-agregar:hover {
+  background: #ff543f;
+}
