@@ -42,7 +42,7 @@ function Todo({ cambiarVista }) {
         { nombre: "Dashboard Admin", vista: "dashboard" },
         { nombre: "Lista de Productos (Admin)", vista: "productos" },
         { nombre: "Agregar Producto (Admin)", vista: "agregar-producto" },
-        { nombre: "Detalle de Producto", vista: "detalle-producto" },
+        { nombre: "Detalle y Editar Producto", vista: "detalle-producto" },
       ],
     },
     {
