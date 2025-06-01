@@ -5,7 +5,8 @@ function Todo({ cambiarVista }) {
       alumno: "Alumno 1",
       funcionalidades: [
         { nombre: "Página Principal", vista: "principal" },
-        { nombre: "Detalle de producto (antes de agregar a carrito)", vista: "detalle-producto" },
+        { nombre: "Categorias", vista: "PxCategoria" },
+        { nombre: "Detalle de producto (antes de agregar a carrito)", vista: "DesProducto" },
       ],
     },
     {
@@ -41,7 +42,7 @@ function Todo({ cambiarVista }) {
         { nombre: "Dashboard Admin", vista: "dashboard" },
         { nombre: "Lista de Productos (Admin)", vista: "productos" },
         { nombre: "Agregar Producto (Admin)", vista: "agregar-producto" },
-        { nombre: "Detalle de Producto", vista: "detalle-producto" },
+        { nombre: "Detalle y Editar Producto", vista: "detalle-producto" },
       ],
     },
     {
