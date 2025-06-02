@@ -1,8 +1,10 @@
+import { useState } from 'react';
+
 function DatosUsuario() {
-  const [Nombre, setNombre] = React.useState('Juan');
-  const [Apellido, setApellido] = React.useState('Pérez');
-  const [Correo, setCorreo] = React.useState('juan.perez@example.com');
-  const [DNI, setDNI] = React.useState('');
+  const [Nombre, setNombre] = useState('Juan');
+  const [Apellido, setApellido] = useState('Pérez');
+  const [Correo, setCorreo] = useState('juan.perez@example.com');
+  const [DNI, setDNI] = useState('');
 
   const validarCorreo = (email) => {
     return email.includes('@');
@@ -82,4 +84,4 @@ function DatosUsuario() {
   );
 }
 
-export default DatosUsuario
+export default DatosUsuario;

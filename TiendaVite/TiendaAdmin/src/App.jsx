@@ -76,8 +76,8 @@ function App() {
       {vistaActual === 'PxCategoria' && <ProductosxCategoria cambiarVista={cambiarVista} />}
       {vistaActual === 'DesProducto' && <ProductoEspecifico cambiarVista={cambiarVista} />}
       {vistaActual === 'cambaircontra' && <CambiarContrasena cambiarVista={cambiarVista} />}
-      {vistaActual === 'AgregarCategoria ' && <AgregarCategoria  cambiarVista={cambiarVista} />}
-      {vistaActual === 'DatosUsuario ' && <DatosUsuario cambiarVista={cambiarVista} />}
+      {vistaActual === 'AgregarCategoria' && <AgregarCategoria  cambiarVista={cambiarVista} />}
+      {vistaActual === 'DatosUsuario' && <DatosUsuario cambiarVista={cambiarVista} />}
       
       <Footer/>
     </>
