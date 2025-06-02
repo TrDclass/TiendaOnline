@@ -1,4 +1,4 @@
-.producto-card {
+.producto-card-carrito {
   display: flex;
   flex-direction: row; /* para que los hijos estén en fila */
   align-items: flex-start; /* alinearlos arriba */
@@ -54,7 +54,7 @@ h4 {
 }
 
 
-h5 {
+.llegada {
   margin: 4px 0;
   word-wrap: break-word;
   overflow-wrap: break-word;

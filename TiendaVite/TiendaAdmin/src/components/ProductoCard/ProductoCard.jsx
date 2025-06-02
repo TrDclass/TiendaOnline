@@ -3,7 +3,7 @@ import '../ProductoCard/ProductoCard.css'
 const ProductoCard = (props) => {
     return (
         <>
-            <article className="producto-card">
+            <article className="producto-card-carrito">
                 <div className="producto-imagen">
                     
                         <img src={props.img} alt={props.name} />
@@ -12,7 +12,7 @@ const ProductoCard = (props) => {
                 <div className="producto-info">
                     <h3>{props.name}</h3>
                     <h4>Presentacion {props.presentacion}</h4>
-                    <h5>{props.fecha_de_llegada}</h5>
+                    <h5 className='llegada'>{props.fecha_de_llegada}</h5>
                     
                 </div>
                 <div className='precio_y_cantidad'>
