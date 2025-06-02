@@ -43,7 +43,7 @@ function AgregarProducto({ cambiarVista }) {
 
         <div className="acciones-formulario">
           <button className="btn-admin secundario" onClick={() => cambiarVista('productos')}>Cancelar</button>
-          <button className="btn-admin verde">Guardar Producto</button>
+          <button className="btn-admin verde">Guardar Prodto</button>
         </div>
       </div>
     </div>
