@@ -73,7 +73,7 @@ function App() {
       {vistaActual === 'pedidocompleto' && <PedidoCompleto cambiarVista={cambiarVista} />}
       {vistaActual === 'PxCategoria' && <ProductosxCategoria cambiarVista={cambiarVista} />}
       {vistaActual === 'DesProducto' && <ProductoEspecifico cambiarVista={cambiarVista} />}
-      {vistaActual === 'CambiarContrasena' && <CambiarContrasena cambiarVista={cambiarVista} />}
+      {vistaActual === 'cambaircontra' && <CambiarContrasena cambiarVista={cambiarVista} />}
       
       <Footer/>
     </>
