@@ -29,6 +29,10 @@ import ProductosxCategoria from './components/PaginaUser/Categorias/ProductosxCa
 import ProductoEspecifico from './components/PaginaUser/ProductoEspecifico'
 
 //
+import CambiarContrasena from './components/PaginaUser/Cambiarcontrasena'
+
+
+
 function App() {
   const [vistaActual, setVistaActual] = useState('principal')
   const [vistaNav, setvistaNav] = useState('navuser')
@@ -69,6 +73,7 @@ function App() {
       {vistaActual === 'pedidocompleto' && <PedidoCompleto cambiarVista={cambiarVista} />}
       {vistaActual === 'PxCategoria' && <ProductosxCategoria cambiarVista={cambiarVista} />}
       {vistaActual === 'DesProducto' && <ProductoEspecifico cambiarVista={cambiarVista} />}
+      {vistaActual === 'CambiarContrasena' && <CambiarContrasena cambiarVista={cambiarVista} />}
       
       <Footer/>
     </>
