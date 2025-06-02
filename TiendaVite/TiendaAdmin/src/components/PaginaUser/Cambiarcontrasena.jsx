@@ -75,7 +75,7 @@ function CambiarContrasena() {
                   Cancelar
                 </button>
                 <button type="submit" className="btn-admin verde">
-                  Guardar Cambios
+                  Guardar Cambio
                 </button>
               </div>
             </form>
