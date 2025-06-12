@@ -1,5 +1,6 @@
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { createProducto } from './api';
 
 function AgregarProducto() {
   const navigate = useNavigate();
@@ -8,30 +9,41 @@ function AgregarProducto() {
     descripcion: '',
     precio: '',
     stock: '',
-    categoria: '',
-    imagen: null
+    categoria: 'Zapatillas',
+    imagen: 'placeholder-producto.webp',
+    estado: 'Activo'
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
+    const { name, value } = e.target;
     setProducto({
       ...producto,
-      [name]: files ? files[0] : value
+      [name]: value
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí iría la lógica para guardar el producto
-    console.log('Producto a guardar:', producto);
+    setLoading(true);
+    setError(null);
     
-    // Redirigir a la lista de productos después de guardar
-    navigate('/admin/productos');
+    try {
+      await createProducto(producto);
+      navigate('/admin/productos');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="admin-container">
       <h1>Agregar Nuevo Producto</h1>
+      
+      {error && <div className="error-message">{error}</div>}
 
       <form className="formulario-admin" onSubmit={handleSubmit}>
         <div className="grupo-formulario">
@@ -54,7 +66,7 @@ function AgregarProducto() {
             value={producto.descripcion}
             onChange={handleChange}
             required
-          ></textarea>
+          />
         </div>
 
         <div style={{ display: 'flex', gap: '20px' }}>
@@ -65,6 +77,7 @@ function AgregarProducto() {
               name="precio"
               placeholder="Ej: 199.00" 
               step="0.01"
+              min="0"
               value={producto.precio}
               onChange={handleChange}
               required
@@ -77,6 +90,7 @@ function AgregarProducto() {
               type="number" 
               name="stock"
               placeholder="Ej: 25" 
+              min="0"
               value={producto.stock}
               onChange={handleChange}
               required
@@ -92,7 +106,6 @@ function AgregarProducto() {
             onChange={handleChange}
             required
           >
-            <option value="">Seleccione una categoría</option>
             <option value="Zapatillas">Zapatillas</option>
             <option value="Ropa">Ropa</option>
             <option value="Accesorios">Accesorios</option>
@@ -100,12 +113,32 @@ function AgregarProducto() {
         </div>
 
         <div className="grupo-formulario">
+          <label>Estado</label>
+          <select
+            name="estado"
+            value={producto.estado}
+            onChange={handleChange}
+          >
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+          </select>
+        </div>
+
+        <div className="grupo-formulario">
           <label>Imagen del Producto</label>
           <input 
             type="file" 
-            name="imagen"
-            onChange={handleChange}
             accept="image/*"
+            onChange={(e) => {
+              // En una implementación real, aquí subirías la imagen
+              const file = e.target.files[0];
+              if (file) {
+                setProducto({
+                  ...producto,
+                  imagen: URL.createObjectURL(file) // Preview temporal
+                });
+              }
+            }}
           />
         </div>
 
@@ -114,11 +147,16 @@ function AgregarProducto() {
             type="button" 
             className="btn-admin secundario" 
             onClick={() => navigate('/admin/productos')}
+            disabled={loading}
           >
             Cancelar
           </button>
-          <button type="submit" className="btn-admin verde">
-            Guardar Producto
+          <button 
+            type="submit" 
+            className="btn-admin verde"
+            disabled={loading}
+          >
+            {loading ? 'Guardando...' : 'Guardar Producto'}
           </button>
         </div>
       </form>

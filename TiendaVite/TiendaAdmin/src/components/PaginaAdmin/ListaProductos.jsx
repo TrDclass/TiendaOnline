@@ -1,33 +1,51 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { fetchProductos, deleteProducto } from './api';
 
 function ListaProductos() {
+  const [productos, setProductos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const [productos] = useState([
-    { id: '001', imagen: 'productoZapatillas.webp', nombre: 'Zapatillas Running Pro', precio: 'S/ 199.00', stock: 25, estado: 'Activo' },
-    { id: '002', imagen: 'productoCamiseta.webp', nombre: 'Camiseta Deportiva', precio: 'S/ 59.90', stock: 42, estado: 'Activo' },
-    { id: '003', imagen: 'productoMochila.webp', nombre: 'Mochila Viajera', precio: 'S/ 129.00', stock: 0, estado: 'Activo' },
-    { id: '004', imagen: 'productoReloj.webp', nombre: 'Reloj Inteligente', precio: 'S/ 299.00', stock: 15, estado: 'Activo' },
-    { id: '005', imagen: 'productoZapatillas.webp', nombre: 'Zapatillas Running Pro', precio: 'S/ 199.00', stock: 25, estado: 'Activo' },
-    { id: '006', imagen: 'productoCamiseta.webp', nombre: 'Camiseta Deportiva', precio: 'S/ 59.90', stock: 42, estado: 'Activo' },
-    { id: '007', imagen: 'productoMochila.webp', nombre: 'Mochila Viajera', precio: 'S/ 129.00', stock: 0, estado: 'Activo' },
-    { id: '008', imagen: 'productoReloj.webp', nombre: 'Reloj Inteligente', precio: 'S/ 299.00', stock: 15, estado: 'Activo' },
-    { id: '009', imagen: 'productoZapatillas.webp', nombre: 'Zapatillas Running Pro', precio: 'S/ 199.00', stock: 25, estado: 'Activo' },
-    { id: '010', imagen: 'productoCamiseta.webp', nombre: 'Camiseta Deportiva', precio: 'S/ 59.90', stock: 42, estado: 'Activo' }
-  ]);
 
-  const handleEliminar = (id) => {
-    // Lógica para eliminar producto
-    console.log(`Eliminar producto con ID: ${id}`);
+  useEffect(() => {
+    const cargarProductos = async () => {
+      try {
+        const data = await fetchProductos();
+        setProductos(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    cargarProductos();
+  }, []);
+
+  const handleEliminar = async (id) => {
+    if (window.confirm('¿Estás seguro de eliminar este producto?')) {
+      try {
+        await deleteProducto(id);
+        setProductos(productos.filter(p => p.id !== id));
+      } catch (err) {
+        setError(err.message);
+      }
+    }
   };
+
+  if (loading) return <div className="admin-container">Cargando...</div>;
+  if (error) return <div className="admin-container">Error: {error}</div>;
 
   return (
     <div className="admin-container">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1>Lista de Productos</h1>
-        <Link to="/admin/agregar-producto" className="btn-admin verde">
+        <button 
+          className="btn-admin verde" 
+          onClick={() => navigate('/admin/agregar-producto')}
+        >
           + Agregar Producto
-        </Link>
+        </button>
       </div>
 
       <div style={{ margin: '20px 0' }}>
@@ -54,19 +72,40 @@ function ListaProductos() {
           {productos.map((producto) => (
             <tr key={producto.id}>
               <td>#{producto.id}</td>
-              <td><img src={`/img/${producto.imagen}`} alt="Producto" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
-              <td>{producto.nombre}</td>
-              <td>{producto.precio}</td>
-              <td>{producto.stock}</td>
-              <td className="estado-activo">{producto.estado}</td>
               <td>
-                <Link 
-                  to={`/admin/producto/${producto.id}`} 
-                  className="btn-admin"
+                <img 
+                  src={`/img/${producto.imagen}`} 
+                  alt="Producto" 
+                  style={{ width: '50px', height: '50px', objectFit: 'cover' }} 
+                  onError={(e) => {
+                    e.target.src = '/img/placeholder-producto.webp';
+                  }}
+                />
+              </td>
+              <td>{producto.nombre}</td>
+              <td>S/ {producto.precio}</td>
+              <td>{producto.stock}</td>
+              <td className={`estado-${producto.estado.toLowerCase()}`}>
+                {producto.estado}
+              </td>
+              <td>
+                <button 
+                  className="btn-admin" 
+                  onClick={() => navigate(`/admin/producto/${producto.id}`, { state: { producto } })}
                 >
                   Editar
-                </Link>
-                <button className="btn-admin secundario">Desactivar</button>
+                </button>
+                <button 
+                  className="btn-admin secundario"
+                  onClick={() => navigate(`/admin/producto/${producto.id}`, { 
+                    state: { 
+                      producto,
+                      modo: 'desactivar' 
+                    } 
+                  })}
+                >
+                  {producto.estado === 'Activo' ? 'Desactivar' : 'Activar'}
+                </button>
                 <button
                   className="btn-eliminar"
                   title="Eliminar"

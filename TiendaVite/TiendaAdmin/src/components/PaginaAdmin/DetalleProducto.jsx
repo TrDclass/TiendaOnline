@@ -1,164 +1,238 @@
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { fetchProductoById, updateProducto } from './api';
 
 function DetalleProducto() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const location = useLocation();
-  
-  // Estado para los datos del producto
-  const [producto, setProducto] = useState({
-    id: '',
-    imagen: '',
+  const [producto, setProducto] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [formData, setFormData] = useState({
     nombre: '',
     descripcion: '',
     precio: '',
     stock: '',
     categoria: 'Zapatillas',
-    estado: 'Activo'
+    estado: 'Activo',
+    imagen: 'placeholder-producto.webp'
   });
 
-  // Obtener datos del producto (simulando API)
   useEffect(() => {
-    // Si viene de ListaProductos con state, usamos esos datos
-    if (location.state?.producto) {
-      setProducto(location.state.producto);
-    } else {
-      // Simulación de fetch a API
-      const productosEjemplo = [
-        { id: '001', imagen: 'productoZapatillas.webp', nombre: 'Zapatillas Running Pro', descripcion: 'Zapatillas ideales para running', precio: '199.00', stock: '25', categoria: 'Zapatillas', estado: 'Activo' },
-        { id: '002', imagen: 'productoCamiseta.webp', nombre: 'Camiseta Deportiva', descripcion: 'Camiseta transpirable', precio: '59.90', stock: '42', categoria: 'Ropa', estado: 'Activo' }
-      ];
-      
-      const productoEncontrado = productosEjemplo.find(p => p.id === id);
-      if (productoEncontrado) {
-        setProducto(productoEncontrado);
+    const cargarProducto = async () => {
+      try {
+        const productoData = await fetchProductoById(id);
+        setProducto(productoData);
+        setFormData({
+          nombre: productoData.nombre,
+          descripcion: productoData.descripcion,
+          precio: productoData.precio,
+          stock: productoData.stock,
+          categoria: productoData.categoria,
+          estado: productoData.estado,
+          imagen: productoData.imagen
+        });
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
-    }
-  }, [id, location.state]);
+    };
+    
+    cargarProducto();
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProducto({
-      ...producto,
+    setFormData({
+      ...formData,
       [name]: value
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí iría la lógica para guardar los cambios
-    console.log('Producto actualizado:', producto);
+    setLoading(true);
+    setError(null);
     
-    // Redirigir a la lista de productos después de guardar
-    navigate('/admin/productos');
+    try {
+      const updatedProduct = await updateProducto(id, formData);
+      setProducto(updatedProduct);
+      // No navegamos para seguir editando si es necesario
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const handleDesactivar = async () => {
+    if (window.confirm(`¿Estás seguro de ${producto.estado === 'Activo' ? 'desactivar' : 'activar'} este producto?`)) {
+      try {
+        const estadoActualizado = producto.estado === 'Activo' ? 'Inactivo' : 'Activo';
+        const updatedProduct = await updateProducto(id, { estado: estadoActualizado });
+        setProducto(updatedProduct);
+        setFormData({
+          ...formData,
+          estado: estadoActualizado
+        });
+      } catch (err) {
+        setError(err.message);
+      }
+    }
+  };
+
+  if (loading) return <div className="admin-container">Cargando...</div>;
+  if (error) return <div className="admin-container">Error: {error}</div>;
+  if (!producto) return <div className="admin-container">Producto no encontrado</div>;
 
   return (
     <div className="admin-container">
-      <h1>Detalle de Producto #{producto.id}</h1>
+      <h1>Editar Producto #{producto.id}</h1>
 
-      <form className="detalle-producto" onSubmit={handleSubmit}>
-        <div>
-          <img 
-            src={`/img/${producto.imagen}`} 
-            alt="Producto" 
-            className="imagen-producto" 
-            onError={(e) => {
-              e.target.src = '/img/placeholder-producto.webp';
-            }}
+      {error && <div className="error-message">{error}</div>}
+
+      <form className="formulario-admin" onSubmit={handleSubmit}>
+        <div className="grupo-formulario">
+          <label>Nombre del Producto</label>
+          <input 
+            type="text" 
+            name="nombre"
+            placeholder="Ej: Zapatillas Running Pro" 
+            value={formData.nombre}
+            onChange={handleChange}
+            required
           />
-          <div style={{ marginTop: '10px' }}>
-            <button type="button" className="btn-admin">
-              Cambiar Imagen
-            </button>
+        </div>
+
+        <div className="grupo-formulario">
+          <label>Descripción</label>
+          <textarea 
+            name="descripcion"
+            placeholder="Descripción detallada del producto..."
+            value={formData.descripcion}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div style={{ display: 'flex', gap: '20px' }}>
+          <div className="grupo-formulario" style={{ flex: 1 }}>
+            <label>Precio (S/)</label>
+            <input 
+              type="number" 
+              name="precio"
+              placeholder="Ej: 199.00" 
+              step="0.01"
+              min="0"
+              value={formData.precio}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="grupo-formulario" style={{ flex: 1 }}>
+            <label>Stock</label>
+            <input 
+              type="number" 
+              name="stock"
+              placeholder="Ej: 25" 
+              min="0"
+              value={formData.stock}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
-        <div className="info-producto">
-          <div className="grupo-formulario">
-            <label>Nombre del Producto</label>
+        <div className="grupo-formulario">
+          <label>Categoría</label>
+          <select 
+            name="categoria"
+            value={formData.categoria}
+            onChange={handleChange}
+            required
+          >
+            <option value="Zapatillas">Zapatillas</option>
+            <option value="Ropa">Ropa</option>
+            <option value="Accesorios">Accesorios</option>
+          </select>
+        </div>
+
+        <div className="grupo-formulario">
+          <label>Estado</label>
+          <select
+            name="estado"
+            value={formData.estado}
+            onChange={handleChange}
+            required
+          >
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+          </select>
+        </div>
+
+        <div className="grupo-formulario">
+          <label>Imagen del Producto</label>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            <img 
+              src={`/img/${formData.imagen}`} 
+              alt="Preview" 
+              style={{ 
+                width: '100px', 
+                height: '100px', 
+                objectFit: 'cover',
+                borderRadius: '8px',
+                border: '1px solid #ddd'
+              }}
+              onError={(e) => {
+                e.target.src = '/img/placeholder-producto.webp';
+              }}
+            />
             <input 
-              type="text" 
-              name="nombre"
-              value={producto.nombre} 
-              onChange={handleChange}
-              required
+              type="file" 
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onload = (event) => {
+                    setFormData({
+                      ...formData,
+                      imagen: event.target.result
+                    });
+                  };
+                  reader.readAsDataURL(file);
+                }
+              }}
             />
           </div>
+        </div>
 
-          <div className="grupo-formulario">
-            <label>Descripción</label>
-            <textarea
-              name="descripcion"
-              value={producto.descripcion}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div style={{ display: 'flex', gap: '20px' }}>
-            <div className="grupo-formulario" style={{ flex: 1 }}>
-              <label>Precio (S/)</label>
-              <input 
-                type="number" 
-                name="precio"
-                value={producto.precio} 
-                step="0.01"
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="grupo-formulario" style={{ flex: 1 }}>
-              <label>Stock</label>
-              <input 
-                type="number" 
-                name="stock"
-                value={producto.stock} 
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
-
-          <div className="grupo-formulario">
-            <label>Categoría</label>
-            <select 
-              name="categoria"
-              value={producto.categoria}
-              onChange={handleChange}
-            >
-              <option value="Zapatillas">Zapatillas</option>
-              <option value="Ropa">Ropa</option>
-              <option value="Accesorios">Accesorios</option>
-            </select>
-          </div>
-
-          <div className="grupo-formulario">
-            <label>Estado</label>
-            <select
-              name="estado"
-              value={producto.estado}
-              onChange={handleChange}
-            >
-              <option value="Activo">Activo</option>
-              <option value="Inactivo">Inactivo</option>
-            </select>
-          </div>
-
-          <div className="acciones-formulario">
-            <button 
-              type="button" 
-              className="btn-admin secundario" 
-              onClick={() => navigate('/admin/productos')}
-            >
-              Cancelar
-            </button>
-            <button type="submit" className="btn-admin">
-              Guardar Cambios
-            </button>
-          </div>
+        <div className="acciones-formulario">
+          <button 
+            type="button" 
+            className="btn-admin secundario" 
+            onClick={() => navigate('/admin/productos')}
+            disabled={loading}
+          >
+            Cancelar
+          </button>
+          <button 
+            type="button" 
+            className={`btn-admin ${producto.estado === 'Activo' ? 'secundario' : 'verde'}`}
+            onClick={handleDesactivar}
+            disabled={loading}
+          >
+            {producto.estado === 'Activo' ? 'Desactivar Producto' : 'Activar Producto'}
+          </button>
+          <button 
+            type="submit" 
+            className="btn-admin verde"
+            disabled={loading}
+          >
+            {loading ? 'Guardando...' : 'Guardar Cambios'}
+          </button>
         </div>
       </form>
     </div>
