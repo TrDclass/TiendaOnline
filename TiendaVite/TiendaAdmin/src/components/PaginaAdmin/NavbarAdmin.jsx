@@ -1,16 +1,56 @@
-function NavbarAdmin({ cambiarVista }) {
+import { NavLink } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+
+function NavbarAdmin() {
+  const location = useLocation();
+
   return (
     <nav className="barra-navegacion">
       <ul>
-        <li><a onClick={() => cambiarVista('dashboard')}>Dashboard</a></li>
-        <li><a onClick={() => cambiarVista('productos')}>Productos</a></li>
-        <li><a onClick={() => cambiarVista('usuarios')}>Usuarios</a></li>
-        <li><a onClick={() => cambiarVista('ordenes')}>Órdenes</a></li>
-        <li><a onClick={() => cambiarVista('categorias')}>Categorías</a></li>
+        <li>
+          <NavLink 
+            to="/admin" 
+            className={({ isActive }) => isActive ? 'active' : ''}
+          >
+            Dashboard
+          </NavLink>
+        </li>
+        <li>
+          <NavLink 
+            to="/admin/productos" 
+            className={({ isActive }) => isActive ? 'active' : ''}
+          >
+            Productos
+          </NavLink>
+        </li>
+        <li>
+          <NavLink 
+            to="/admin/usuarios" 
+            className={({ isActive }) => isActive ? 'active' : ''}
+          >
+            Usuarios
+          </NavLink>
+        </li>
+        <li>
+          <NavLink 
+            to="/admin/ordenes" 
+            className={({ isActive }) => isActive ? 'active' : ''}
+          >
+            Órdenes
+          </NavLink>
+        </li>
+        <li>
+          <NavLink 
+            to="/admin/categorias" 
+            className={({ isActive }) => isActive ? 'active' : ''}
+          >
+            Categorías
+          </NavLink>
+        </li>
       </ul>
       <div className="ofertas">ADMINISTRADOR</div>
     </nav>
-  )
+  );
 }
 
-export default NavbarAdmin
+export default NavbarAdmin;
