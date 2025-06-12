@@ -1,27 +1,40 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createProducto } from './api';
+import { createProducto, uploadImage } from '../api';
 
 function AgregarProducto() {
   const navigate = useNavigate();
-  const [producto, setProducto] = useState({
+  const [formData, setFormData] = useState({
     nombre: '',
     descripcion: '',
     precio: '',
     stock: '',
     categoria: 'Zapatillas',
-    imagen: 'placeholder-producto.webp',
-    estado: 'Activo'
+    estado: 'Activo',
+    imagen: null
   });
+  const [previewImage, setPreviewImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProducto({
-      ...producto,
-      [name]: value
-    });
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Mostrar vista previa
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setPreviewImage(event.target.result);
+      };
+      reader.readAsDataURL(file);
+      
+      // Guardar el archivo para subirlo luego
+      setFormData({ ...formData, imagen: file });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -30,7 +43,20 @@ function AgregarProducto() {
     setError(null);
     
     try {
-      await createProducto(producto);
+      // 1. Subir la imagen si hay una nueva
+      let imageName = 'placeholder-producto.webp';
+      if (formData.imagen instanceof File) {
+        imageName = await uploadImage(formData.imagen);
+      }
+
+      // 2. Crear el producto con el nombre de la imagen
+      const productoData = {
+        ...formData,
+        imagen: imageName
+      };
+      await createProducto(productoData);
+      
+      // 3. Redirigir a la lista de productos
       navigate('/admin/productos');
     } catch (err) {
       setError(err.message);
@@ -52,7 +78,7 @@ function AgregarProducto() {
             type="text" 
             name="nombre"
             placeholder="Ej: Zapatillas Running Pro" 
-            value={producto.nombre}
+            value={formData.nombre}
             onChange={handleChange}
             required
           />
@@ -63,7 +89,7 @@ function AgregarProducto() {
           <textarea 
             name="descripcion"
             placeholder="Descripción detallada del producto..."
-            value={producto.descripcion}
+            value={formData.descripcion}
             onChange={handleChange}
             required
           />
@@ -78,7 +104,7 @@ function AgregarProducto() {
               placeholder="Ej: 199.00" 
               step="0.01"
               min="0"
-              value={producto.precio}
+              value={formData.precio}
               onChange={handleChange}
               required
             />
@@ -91,7 +117,7 @@ function AgregarProducto() {
               name="stock"
               placeholder="Ej: 25" 
               min="0"
-              value={producto.stock}
+              value={formData.stock}
               onChange={handleChange}
               required
             />
@@ -102,7 +128,7 @@ function AgregarProducto() {
           <label>Categoría</label>
           <select 
             name="categoria"
-            value={producto.categoria}
+            value={formData.categoria}
             onChange={handleChange}
             required
           >
@@ -116,8 +142,9 @@ function AgregarProducto() {
           <label>Estado</label>
           <select
             name="estado"
-            value={producto.estado}
+            value={formData.estado}
             onChange={handleChange}
+            required
           >
             <option value="Activo">Activo</option>
             <option value="Inactivo">Inactivo</option>
@@ -126,20 +153,40 @@ function AgregarProducto() {
 
         <div className="grupo-formulario">
           <label>Imagen del Producto</label>
-          <input 
-            type="file" 
-            accept="image/*"
-            onChange={(e) => {
-              // En una implementación real, aquí subirías la imagen
-              const file = e.target.files[0];
-              if (file) {
-                setProducto({
-                  ...producto,
-                  imagen: URL.createObjectURL(file) // Preview temporal
-                });
-              }
-            }}
-          />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginTop: '10px' }}>
+            {previewImage ? (
+              <img 
+                src={previewImage} 
+                alt="Preview" 
+                style={{ 
+                  width: '100px', 
+                  height: '100px', 
+                  objectFit: 'cover',
+                  borderRadius: '8px',
+                  border: '1px solid #ddd'
+                }}
+              />
+            ) : (
+              <div style={{
+                width: '100px',
+                height: '100px',
+                backgroundColor: '#f5f5f5',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '8px',
+                border: '1px dashed #ccc'
+              }}>
+                <span>Vista previa</span>
+              </div>
+            )}
+            <input 
+              type="file" 
+              accept="image/*"
+              onChange={handleImageChange}
+              required
+            />
+          </div>
         </div>
 
         <div className="acciones-formulario">

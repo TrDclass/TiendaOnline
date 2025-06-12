@@ -1,16 +1,42 @@
 // src/api.js
 const productos = [
-  { id: '001', imagen: 'productoZapatillas.webp', nombre: 'Zapatillas Running Pro', descripcion: 'Zapatillas ideales para running', precio: '199.00', stock: '25', categoria: 'Zapatillas', estado: 'Activo' },
-  { id: '002', imagen: 'productoCamiseta.webp', nombre: 'Camiseta Deportiva', descripcion: 'Camiseta transpirable', precio: '59.90', stock: '42', categoria: 'Ropa', estado: 'Activo' },
-  { id: '003', imagen: 'productoMochila.webp', nombre: 'Mochila Viajera', descripcion: 'Mochila resistente para viajes', precio: '129.00', stock: '0', categoria: 'Accesorios', estado: 'Inactivo' }
+  { id: '001', imagen: 'productoZapatillas.webp', nombre: 'Zapatillas Running Pro', descripcion: 'Zapatillas para correr', precio: '199.00', stock: '25', categoria: 'Zapatillas', estado: 'Activo' },
+  { id: '002', imagen: 'productoCamiseta.webp', nombre: 'Camiseta Deportiva', descripcion: 'Camiseta transpirable', precio: '59.90', stock: '42', categoria: 'Ropa', estado: 'Activo' }
 ];
 
+// Almacenamiento temporal de imágenes en memoria (solo para desarrollo)
+const imagenesTemporales = {};
+
+// Función para subir imágenes
+export const uploadImage = (file) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const imageName = `img-${Date.now()}-${file.name}`;
+      imagenesTemporales[imageName] = e.target.result;
+      resolve(imageName);
+    };
+    reader.readAsDataURL(file);
+  });
+};
+
+// Función para obtener la URL de la imagen
+export const getImageUrl = (imageName) => {
+  // En desarrollo: usa las imágenes temporales o del directorio público
+  if (imagenesTemporales[imageName]) {
+    return imagenesTemporales[imageName];
+  }
+  return `/img/${imageName}`; // Ruta relativa al directorio público
+};
+
+// Obtener todos los productos
 export const fetchProductos = () => {
   return new Promise((resolve) => {
     setTimeout(() => resolve([...productos]), 500);
   });
 };
 
+// Obtener un producto por ID
 export const fetchProductoById = (id) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -24,6 +50,7 @@ export const fetchProductoById = (id) => {
   });
 };
 
+// Crear un nuevo producto
 export const createProducto = (nuevoProducto) => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -35,6 +62,7 @@ export const createProducto = (nuevoProducto) => {
   });
 };
 
+// Actualizar un producto existente
 export const updateProducto = (id, datosActualizados) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -49,6 +77,7 @@ export const updateProducto = (id, datosActualizados) => {
   });
 };
 
+// Eliminar un producto
 export const deleteProducto = (id) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {

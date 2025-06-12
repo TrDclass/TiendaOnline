@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchProductoById, updateProducto } from './api';
+import { fetchProductoById, updateProducto, uploadImage, getImageUrl } from '../api';
 
 function DetalleProducto() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [producto, setProducto] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     nombre: '',
     descripcion: '',
@@ -15,8 +13,11 @@ function DetalleProducto() {
     stock: '',
     categoria: 'Zapatillas',
     estado: 'Activo',
-    imagen: 'placeholder-producto.webp'
+    imagen: null
   });
+  const [previewImage, setPreviewImage] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const cargarProducto = async () => {
@@ -32,6 +33,7 @@ function DetalleProducto() {
           estado: productoData.estado,
           imagen: productoData.imagen
         });
+        setPreviewImage(getImageUrl(productoData.imagen));
       } catch (err) {
         setError(err.message);
       } finally {
@@ -44,10 +46,22 @@ function DetalleProducto() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Mostrar vista previa
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setPreviewImage(event.target.result);
+      };
+      reader.readAsDataURL(file);
+      
+      // Guardar el archivo para subirlo luego
+      setFormData({ ...formData, imagen: file });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -56,9 +70,26 @@ function DetalleProducto() {
     setError(null);
     
     try {
-      const updatedProduct = await updateProducto(id, formData);
+      // 1. Subir la nueva imagen si se seleccionó una
+      let imageName = producto.imagen; // Mantener la imagen actual por defecto
+      if (formData.imagen instanceof File) {
+        imageName = await uploadImage(formData.imagen);
+      }
+
+      // 2. Actualizar el producto
+      const updatedData = {
+        nombre: formData.nombre,
+        descripcion: formData.descripcion,
+        precio: formData.precio,
+        stock: formData.stock,
+        categoria: formData.categoria,
+        estado: formData.estado,
+        imagen: imageName
+      };
+      
+      const updatedProduct = await updateProducto(id, updatedData);
       setProducto(updatedProduct);
-      // No navegamos para seguir editando si es necesario
+      setPreviewImage(getImageUrl(imageName));
     } catch (err) {
       setError(err.message);
     } finally {
@@ -174,9 +205,9 @@ function DetalleProducto() {
 
         <div className="grupo-formulario">
           <label>Imagen del Producto</label>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginTop: '10px' }}>
             <img 
-              src={`/img/${formData.imagen}`} 
+              src={previewImage} 
               alt="Preview" 
               style={{ 
                 width: '100px', 
@@ -192,19 +223,7 @@ function DetalleProducto() {
             <input 
               type="file" 
               accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files[0];
-                if (file) {
-                  const reader = new FileReader();
-                  reader.onload = (event) => {
-                    setFormData({
-                      ...formData,
-                      imagen: event.target.result
-                    });
-                  };
-                  reader.readAsDataURL(file);
-                }
-              }}
+              onChange={handleImageChange}
             />
           </div>
         </div>

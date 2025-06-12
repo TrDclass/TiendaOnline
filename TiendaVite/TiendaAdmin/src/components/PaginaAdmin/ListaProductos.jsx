@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchProductos, deleteProducto } from './api';
+import { fetchProductos, deleteProducto, getImageUrl } from '../api';
 
 function ListaProductos() {
+  const navigate = useNavigate();
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const cargarProductos = async () => {
@@ -74,9 +74,14 @@ function ListaProductos() {
               <td>#{producto.id}</td>
               <td>
                 <img 
-                  src={`/img/${producto.imagen}`} 
+                  src={getImageUrl(producto.imagen)} 
                   alt="Producto" 
-                  style={{ width: '50px', height: '50px', objectFit: 'cover' }} 
+                  style={{ 
+                    width: '50px', 
+                    height: '50px', 
+                    objectFit: 'cover',
+                    borderRadius: '4px'
+                  }}
                   onError={(e) => {
                     e.target.src = '/img/placeholder-producto.webp';
                   }}
@@ -91,17 +96,14 @@ function ListaProductos() {
               <td>
                 <button 
                   className="btn-admin" 
-                  onClick={() => navigate(`/admin/producto/${producto.id}`, { state: { producto } })}
+                  onClick={() => navigate(`/admin/producto/${producto.id}`)}
                 >
                   Editar
                 </button>
                 <button 
                   className="btn-admin secundario"
-                  onClick={() => navigate(`/admin/producto/${producto.id}`, { 
-                    state: { 
-                      producto,
-                      modo: 'desactivar' 
-                    } 
+                  onClick={() => navigate(`/admin/producto/${producto.id}`, {
+                    state: { modo: 'desactivar' }
                   })}
                 >
                   {producto.estado === 'Activo' ? 'Desactivar' : 'Activar'}
