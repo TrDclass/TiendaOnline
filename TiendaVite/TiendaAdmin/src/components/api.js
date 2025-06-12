@@ -1,8 +1,10 @@
 // src/api.js
 const productos = [
-  { id: '001', imagen: 'productoZapatillas.webp', nombre: 'Zapatillas Running Pro', descripcion: 'Zapatillas para correr', precio: '199.00', stock: '25', categoria: 'Zapatillas', estado: 'Activo' },
-  { id: '002', imagen: 'productoCamiseta.webp', nombre: 'Camiseta Deportiva', descripcion: 'Camiseta transpirable', precio: '59.90', stock: '42', categoria: 'Ropa', estado: 'Activo' }
-];
+  { id: '#001', imagen: 'productoZapatillas.webp', nombre: 'Zapatillas Running Pro', precio: 'S/ 199.00', stock: 25, estado: 'Activo' },
+  { id: '#002', imagen: 'productoCamiseta.webp', nombre: 'Camiseta Deportiva', precio: 'S/ 59.90', stock: 42, estado: 'Activo' },
+  { id: '#003', imagen: 'productoMochila.webp', nombre: 'Mochila Viajera', precio: 'S/ 129.00', stock: 0, estado: 'Activo' },
+  { id: '#004', imagen: 'productoReloj.webp', nombre: 'Reloj Inteligente', precio: 'S/ 299.00', stock: 15, estado: 'Activo' },
+  ];
 
 // Almacenamiento temporal de imágenes en memoria (solo para desarrollo)
 const imagenesTemporales = {};

@@ -30,6 +30,7 @@ import ProductoEspecifico from './components/PaginaUser/ProductoEspecifico';
 import CambiarContrasena from './components/PaginaUser/Cambiarcontrasena';
 import DatosUsuario from './components/PaginaUser/DatosUsuario';
 import AgregarCategoria from './components/PaginaAdmin/AgregarCategoria';
+import Categorias from './components/PaginaUser/PaginaPripal/Categorias';
 
 function App() {
   const [isAdminMode, setIsAdminMode] = useState(false);
@@ -58,8 +59,10 @@ function App() {
             <Route path="/checkout/metodo-pago/pago-1" element={<CheckoutPago1 />} />
             <Route path="/checkout/metodo-pago/pago-2" element={<CheckoutPago2 />} />
             <Route path="/pedido-completo" element={<PedidoCompleto />} />
-            <Route path="/categoria/:id" element={<ProductosxCategoria />} />
-            <Route path="/producto/:id" element={<ProductoEspecifico />} />
+            <Route path="/categorias" element={<Categorias />} />
+            <Route path="/categorias/:id" element={<ProductosxCategoria />} />
+            <Route path="/productos" element={<ProductoEspecifico />} />
+            <Route path="/productos/:id" element={<ProductoEspecifico />} />
             <Route path="/cambiar-contrasena" element={<CambiarContrasena />} />
             <Route path="/mis-datos" element={<DatosUsuario />} />
             <Route path="/mis-ordenes" element={<ContenidoUsuario />} />
