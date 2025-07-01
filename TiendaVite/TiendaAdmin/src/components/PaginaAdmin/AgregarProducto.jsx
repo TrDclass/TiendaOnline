@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createProducto, uploadImage } from '../api';
+import productoApi from '../../api/productoApi';
 
 function AgregarProducto() {
   const navigate = useNavigate();
@@ -22,18 +22,15 @@ function AgregarProducto() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleImageChange = async (e) => {
+  const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Mostrar vista previa
       const reader = new FileReader();
       reader.onload = (event) => {
         setPreviewImage(event.target.result);
       };
       reader.readAsDataURL(file);
-      
-      // Guardar el archivo para subirlo luego
-      setFormData({ ...formData, imagen: file });
+      setFormData({ ...formData, imagen: file.name });
     }
   };
 
@@ -41,22 +38,14 @@ function AgregarProducto() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    
-    try {
-      // 1. Subir la imagen si hay una nueva
-      let imageName = 'placeholder-producto.webp';
-      if (formData.imagen instanceof File) {
-        imageName = await uploadImage(formData.imagen);
-      }
 
-      // 2. Crear el producto con el nombre de la imagen
+    try {
       const productoData = {
         ...formData,
-        imagen: imageName
+        imagen: formData.imagen || 'placeholder-producto.webp'
       };
-      await createProducto(productoData);
-      
-      // 3. Redirigir a la lista de productos
+
+      await productoApi.create(productoData);
       navigate('/admin/productos');
     } catch (err) {
       setError(err.message);
@@ -68,70 +57,33 @@ function AgregarProducto() {
   return (
     <div className="admin-container">
       <h1>Agregar Nuevo Producto</h1>
-      
-      {error && <div className="error-message">{error}</div>}
 
       <form className="formulario-admin" onSubmit={handleSubmit}>
         <div className="grupo-formulario">
           <label>Nombre del Producto</label>
-          <input 
-            type="text" 
-            name="nombre"
-            placeholder="Ej: Zapatillas Running Pro" 
-            value={formData.nombre}
-            onChange={handleChange}
-            required
-          />
+          <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
         </div>
 
         <div className="grupo-formulario">
           <label>Descripción</label>
-          <textarea 
-            name="descripcion"
-            placeholder="Descripción detallada del producto..."
-            value={formData.descripcion}
-            onChange={handleChange}
-            required
-          />
+          <textarea name="descripcion" value={formData.descripcion} onChange={handleChange} required />
         </div>
 
         <div style={{ display: 'flex', gap: '20px' }}>
           <div className="grupo-formulario" style={{ flex: 1 }}>
             <label>Precio (S/)</label>
-            <input 
-              type="number" 
-              name="precio"
-              placeholder="Ej: 199.00" 
-              step="0.01"
-              min="0"
-              value={formData.precio}
-              onChange={handleChange}
-              required
-            />
+            <input type="number" name="precio" step="0.01" min="0" value={formData.precio} onChange={handleChange} required />
           </div>
 
           <div className="grupo-formulario" style={{ flex: 1 }}>
             <label>Stock</label>
-            <input 
-              type="number" 
-              name="stock"
-              placeholder="Ej: 25" 
-              min="0"
-              value={formData.stock}
-              onChange={handleChange}
-              required
-            />
+            <input type="number" name="stock" min="0" value={formData.stock} onChange={handleChange} required />
           </div>
         </div>
 
         <div className="grupo-formulario">
           <label>Categoría</label>
-          <select 
-            name="categoria"
-            value={formData.categoria}
-            onChange={handleChange}
-            required
-          >
+          <select name="categoria" value={formData.categoria} onChange={handleChange} required>
             <option value="Zapatillas">Zapatillas</option>
             <option value="Ropa">Ropa</option>
             <option value="Accesorios">Accesorios</option>
@@ -140,12 +92,7 @@ function AgregarProducto() {
 
         <div className="grupo-formulario">
           <label>Estado</label>
-          <select
-            name="estado"
-            value={formData.estado}
-            onChange={handleChange}
-            required
-          >
+          <select name="estado" value={formData.estado} onChange={handleChange} required>
             <option value="Activo">Activo</option>
             <option value="Inactivo">Inactivo</option>
           </select>
@@ -155,54 +102,21 @@ function AgregarProducto() {
           <label>Imagen del Producto</label>
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginTop: '10px' }}>
             {previewImage ? (
-              <img 
-                src={previewImage} 
-                alt="Preview" 
-                style={{ 
-                  width: '100px', 
-                  height: '100px', 
-                  objectFit: 'cover',
-                  borderRadius: '8px',
-                  border: '1px solid #ddd'
-                }}
-              />
+              <img src={previewImage} alt="Preview" style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #ddd' }} />
             ) : (
-              <div style={{
-                width: '100px',
-                height: '100px',
-                backgroundColor: '#f5f5f5',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: '8px',
-                border: '1px dashed #ccc'
-              }}>
+              <div style={{ width: '100px', height: '100px', backgroundColor: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px', border: '1px dashed #ccc' }}>
                 <span>Vista previa</span>
               </div>
             )}
-            <input 
-              type="file" 
-              accept="image/*"
-              onChange={handleImageChange}
-              required
-            />
+            <input type="file" accept="image/*" onChange={handleImageChange} required />
           </div>
         </div>
 
         <div className="acciones-formulario">
-          <button 
-            type="button" 
-            className="btn-admin secundario" 
-            onClick={() => navigate('/admin/productos')}
-            disabled={loading}
-          >
+          <button type="button" className="btn-admin secundario" onClick={() => navigate('/admin/productos')} disabled={loading}>
             Cancelar
           </button>
-          <button 
-            type="submit" 
-            className="btn-admin verde"
-            disabled={loading}
-          >
+          <button type="submit" className="btn-admin verde" disabled={loading}>
             {loading ? 'Guardando...' : 'Guardar Producto'}
           </button>
         </div>

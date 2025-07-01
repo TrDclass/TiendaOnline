@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchProductos, deleteProducto, getImageUrl } from '../api';
+import productoApi from '../../api/productoApi';
 
 function ListaProductos() {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ function ListaProductos() {
   useEffect(() => {
     const cargarProductos = async () => {
       try {
-        const data = await fetchProductos();
+        const data = await productoApi.findAll();
         setProductos(data);
       } catch (err) {
         setError(err.message);
@@ -25,13 +25,15 @@ function ListaProductos() {
   const handleEliminar = async (id) => {
     if (window.confirm('¿Estás seguro de eliminar este producto?')) {
       try {
-        await deleteProducto(id);
+        await productoApi.remove(id);
         setProductos(productos.filter(p => p.id !== id));
       } catch (err) {
         setError(err.message);
       }
     }
   };
+
+  const getImageUrl = (imagen) => `/img/${imagen}`;
 
   if (loading) return <div className="admin-container">Cargando...</div>;
   if (error) return <div className="admin-container">Error: {error}</div>;
@@ -46,14 +48,6 @@ function ListaProductos() {
         >
           + Agregar Producto
         </button>
-      </div>
-
-      <div style={{ margin: '20px 0' }}>
-        <input
-          type="text"
-          placeholder="Filtrar por nombre, serie o ID..."
-          style={{ padding: '8px 12px', width: '300px', borderRadius: '4px', border: '1px solid #ccc' }}
-        />
       </div>
 
       <table className="tabla-admin">
@@ -76,12 +70,7 @@ function ListaProductos() {
                 <img 
                   src={getImageUrl(producto.imagen)} 
                   alt="Producto" 
-                  style={{ 
-                    width: '50px', 
-                    height: '50px', 
-                    objectFit: 'cover',
-                    borderRadius: '4px'
-                  }}
+                  style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }}
                   onError={(e) => {
                     e.target.src = '/img/placeholder-producto.webp';
                   }}
@@ -90,7 +79,7 @@ function ListaProductos() {
               <td>{producto.nombre}</td>
               <td>S/ {producto.precio}</td>
               <td>{producto.stock}</td>
-              <td className={`estado-${producto.estado.toLowerCase()}`}>
+              <td className={`estado-${producto.estado?.toLowerCase()}`}>
                 {producto.estado}
               </td>
               <td>
@@ -102,32 +91,15 @@ function ListaProductos() {
                 </button>
                 <button 
                   className="btn-admin secundario"
-                  onClick={() => navigate(`/admin/producto/${producto.id}`, {
-                    state: { modo: 'desactivar' }
-                  })}
-                >
-                  {producto.estado === 'Activo' ? 'Desactivar' : 'Activar'}
-                </button>
-                <button
-                  className="btn-eliminar"
-                  title="Eliminar"
                   onClick={() => handleEliminar(producto.id)}
                 >
-                  🗑️
+                  Eliminar
                 </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
-      <div className="paginacion">
-        <button className="activo">1</button>
-        <button>2</button>
-        <button>3</button>
-        <span>...</span>
-        <button>10</button>
-      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchProductoById, updateProducto, uploadImage, getImageUrl } from '../api';
+import productoApi from '../../api/productoApi';
 
 function DetalleProducto() {
   const navigate = useNavigate();
@@ -22,25 +22,24 @@ function DetalleProducto() {
   useEffect(() => {
     const cargarProducto = async () => {
       try {
-        const productoData = await fetchProductoById(id);
-        setProducto(productoData);
+        const data = await productoApi.findOne(id);
+        setProducto(data);
         setFormData({
-          nombre: productoData.nombre,
-          descripcion: productoData.descripcion,
-          precio: productoData.precio,
-          stock: productoData.stock,
-          categoria: productoData.categoria,
-          estado: productoData.estado,
-          imagen: productoData.imagen
+          nombre: data.nombre,
+          descripcion: data.descripcion,
+          precio: data.precio,
+          stock: data.stock,
+          categoria: data.categoria || 'Zapatillas',
+          estado: data.estado,
+          imagen: data.imagen
         });
-        setPreviewImage(getImageUrl(productoData.imagen));
+        setPreviewImage(`/img/${data.imagen}`);
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-    
     cargarProducto();
   }, [id]);
 
@@ -49,18 +48,15 @@ function DetalleProducto() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleImageChange = async (e) => {
+  const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Mostrar vista previa
       const reader = new FileReader();
       reader.onload = (event) => {
         setPreviewImage(event.target.result);
       };
       reader.readAsDataURL(file);
-      
-      // Guardar el archivo para subirlo luego
-      setFormData({ ...formData, imagen: file });
+      setFormData({ ...formData, imagen: file.name });
     }
   };
 
@@ -68,28 +64,21 @@ function DetalleProducto() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    
-    try {
-      // 1. Subir la nueva imagen si se seleccionó una
-      let imageName = producto.imagen; // Mantener la imagen actual por defecto
-      if (formData.imagen instanceof File) {
-        imageName = await uploadImage(formData.imagen);
-      }
 
-      // 2. Actualizar el producto
+    try {
       const updatedData = {
+        id,
         nombre: formData.nombre,
         descripcion: formData.descripcion,
         precio: formData.precio,
         stock: formData.stock,
         categoria: formData.categoria,
         estado: formData.estado,
-        imagen: imageName
+        imagen: formData.imagen || 'placeholder-producto.webp'
       };
-      
-      const updatedProduct = await updateProducto(id, updatedData);
-      setProducto(updatedProduct);
-      setPreviewImage(getImageUrl(imageName));
+
+      await productoApi.update(updatedData);
+      navigate('/admin/productos');
     } catch (err) {
       setError(err.message);
     } finally {
@@ -101,12 +90,10 @@ function DetalleProducto() {
     if (window.confirm(`¿Estás seguro de ${producto.estado === 'Activo' ? 'desactivar' : 'activar'} este producto?`)) {
       try {
         const estadoActualizado = producto.estado === 'Activo' ? 'Inactivo' : 'Activo';
-        const updatedProduct = await updateProducto(id, { estado: estadoActualizado });
-        setProducto(updatedProduct);
-        setFormData({
-          ...formData,
-          estado: estadoActualizado
-        });
+        const updatedData = { ...producto, estado: estadoActualizado };
+        await productoApi.update(updatedData);
+        setProducto(updatedData);
+        setFormData({ ...formData, estado: estadoActualizado });
       } catch (err) {
         setError(err.message);
       }
@@ -121,69 +108,32 @@ function DetalleProducto() {
     <div className="admin-container">
       <h1>Editar Producto #{producto.id}</h1>
 
-      {error && <div className="error-message">{error}</div>}
-
       <form className="formulario-admin" onSubmit={handleSubmit}>
         <div className="grupo-formulario">
           <label>Nombre del Producto</label>
-          <input 
-            type="text" 
-            name="nombre"
-            placeholder="Ej: Zapatillas Running Pro" 
-            value={formData.nombre}
-            onChange={handleChange}
-            required
-          />
+          <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
         </div>
 
         <div className="grupo-formulario">
           <label>Descripción</label>
-          <textarea 
-            name="descripcion"
-            placeholder="Descripción detallada del producto..."
-            value={formData.descripcion}
-            onChange={handleChange}
-            required
-          />
+          <textarea name="descripcion" value={formData.descripcion} onChange={handleChange} required />
         </div>
 
         <div style={{ display: 'flex', gap: '20px' }}>
           <div className="grupo-formulario" style={{ flex: 1 }}>
             <label>Precio (S/)</label>
-            <input 
-              type="number" 
-              name="precio"
-              placeholder="Ej: 199.00" 
-              step="0.01"
-              min="0"
-              value={formData.precio}
-              onChange={handleChange}
-              required
-            />
+            <input type="number" name="precio" step="0.01" min="0" value={formData.precio} onChange={handleChange} required />
           </div>
 
           <div className="grupo-formulario" style={{ flex: 1 }}>
             <label>Stock</label>
-            <input 
-              type="number" 
-              name="stock"
-              placeholder="Ej: 25" 
-              min="0"
-              value={formData.stock}
-              onChange={handleChange}
-              required
-            />
+            <input type="number" name="stock" min="0" value={formData.stock} onChange={handleChange} required />
           </div>
         </div>
 
         <div className="grupo-formulario">
           <label>Categoría</label>
-          <select 
-            name="categoria"
-            value={formData.categoria}
-            onChange={handleChange}
-            required
-          >
+          <select name="categoria" value={formData.categoria} onChange={handleChange} required>
             <option value="Zapatillas">Zapatillas</option>
             <option value="Ropa">Ropa</option>
             <option value="Accesorios">Accesorios</option>
@@ -192,12 +142,7 @@ function DetalleProducto() {
 
         <div className="grupo-formulario">
           <label>Estado</label>
-          <select
-            name="estado"
-            value={formData.estado}
-            onChange={handleChange}
-            required
-          >
+          <select name="estado" value={formData.estado} onChange={handleChange} required>
             <option value="Activo">Activo</option>
             <option value="Inactivo">Inactivo</option>
           </select>
@@ -206,50 +151,26 @@ function DetalleProducto() {
         <div className="grupo-formulario">
           <label>Imagen del Producto</label>
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginTop: '10px' }}>
-            <img 
-              src={previewImage} 
-              alt="Preview" 
-              style={{ 
-                width: '100px', 
-                height: '100px', 
-                objectFit: 'cover',
-                borderRadius: '8px',
-                border: '1px solid #ddd'
-              }}
+            <img
+              src={previewImage}
+              alt="Preview"
+              style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #ddd' }}
               onError={(e) => {
                 e.target.src = '/img/placeholder-producto.webp';
               }}
             />
-            <input 
-              type="file" 
-              accept="image/*"
-              onChange={handleImageChange}
-            />
+            <input type="file" accept="image/*" onChange={handleImageChange} />
           </div>
         </div>
 
         <div className="acciones-formulario">
-          <button 
-            type="button" 
-            className="btn-admin secundario" 
-            onClick={() => navigate('/admin/productos')}
-            disabled={loading}
-          >
+          <button type="button" className="btn-admin secundario" onClick={() => navigate('/admin/productos')} disabled={loading}>
             Cancelar
           </button>
-          <button 
-            type="button" 
-            className={`btn-admin ${producto.estado === 'Activo' ? 'secundario' : 'verde'}`}
-            onClick={handleDesactivar}
-            disabled={loading}
-          >
+          <button type="button" className={`btn-admin ${producto.estado === 'Activo' ? 'secundario' : 'verde'}`} onClick={handleDesactivar} disabled={loading}>
             {producto.estado === 'Activo' ? 'Desactivar Producto' : 'Activar Producto'}
           </button>
-          <button 
-            type="submit" 
-            className="btn-admin verde"
-            disabled={loading}
-          >
+          <button type="submit" className="btn-admin verde" disabled={loading}>
             {loading ? 'Guardando...' : 'Guardar Cambios'}
           </button>
         </div>
