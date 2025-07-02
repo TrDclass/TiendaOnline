@@ -1,46 +1,40 @@
-import model from '../models/producto.js'
+import Producto from '../models/producto.js';
 
-let data = [...model];
-let counter = data.length
-
-const findAll = () => {
-    return data;
+// Obtener todos los productos
+const findAll = async () => {
+    return await Producto.findAll();
 }
 
-const findOne = (id) => {
-    const result = data.find(x => x.id == id );
-
-    return result;
+// Buscar un producto por ID
+const findOne = async (id) => {
+    return await Producto.findByPk(id);
 }
 
-const create = (payload) => {
-    counter++;
-    data.push({...payload, id: counter})
-    return payload;
-} 
-
-const update = (payload) => {
-    const index = data.findIndex(item => item.id == payload.id)
-
-    if (index > -1) {
-        data[index] = payload;
-        return payload;
-    } else  
-        return null;
+// Crear un nuevo producto
+const create = async (payload) => {
+    return await Producto.create(payload);
 }
 
-const remove = (id) => {
-    console.log(id)
-    const index = data.findIndex(item => item.id == id)
+// Actualizar un producto existente
+const update = async (payload) => {
+    const producto = await Producto.findByPk(payload.id);
+    if (producto) {
+        return await producto.update(payload);
+    }
+    return null;
+}
 
-    if (index > -1) {
-        data.splice(index,1);
+// Eliminar un producto
+const remove = async (id) => {
+    const producto = await Producto.findByPk(id);
+    if (producto) {
+        await producto.destroy();
         return true;
-    } else  
-        return false;
+    }
+    return false;
 }
 
-
+// Exportar el repositorio como objeto
 const repository = { findAll, findOne, create, update, remove }
 
 export default repository;

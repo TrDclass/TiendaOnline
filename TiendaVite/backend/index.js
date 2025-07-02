@@ -1,24 +1,24 @@
-import express from 'express';
-import cors from 'cors';
-import bodyParser from 'body-parser';
+import app from './app.js';
+import sequelize from './src/config/database.js';
 
-import productoRouter from './src/routes/producto.js'
-import usersRouter from './src/routes/users.js'
-import loginRouter from './src/routes/login.js'
+async function main () {
+    try {
+        const init = process.argv[2];
 
-const app = express();
+        if (init) 
+                await sequelize.sync({ force: true })
+            else
+                await sequelize.sync({ force: false})
+            
+        console.log('Base de datos actualizada!')
 
-app.use(cors())
-app.use(bodyParser.json())
-
-app.get('/', (req,res) =>  {
-    return res.json({message: "hellow world"})
+        app.listen(3001, () => {
+        console.log('Server is running on port 3001')
 })
 
-app.use('/producto', productoRouter);
-app.use('/users', usersRouter);
-app.use('/login', loginRouter)
+    } catch (error) {
+        console.log(error)
+    }
+}
 
-app.listen(3001, () => {
-    console.log('Server is running on port 3001')
-})
+main();
