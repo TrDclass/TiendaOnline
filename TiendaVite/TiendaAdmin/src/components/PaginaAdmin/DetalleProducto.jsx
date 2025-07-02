@@ -16,6 +16,7 @@ function DetalleProducto() {
     imagen: null
   });
   const [previewImage, setPreviewImage] = useState(null);
+  const [imagenFile, setImagenFile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -45,18 +46,14 @@ function DetalleProducto() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setPreviewImage(event.target.result);
-      };
-      reader.readAsDataURL(file);
-      setFormData({ ...formData, imagen: file.name });
+      setImagenFile(file);
+      setPreviewImage(URL.createObjectURL(file));
     }
   };
 
@@ -66,18 +63,16 @@ function DetalleProducto() {
     setError(null);
 
     try {
-      const updatedData = {
-        id,
-        nombre: formData.nombre,
-        descripcion: formData.descripcion,
-        precio: formData.precio,
-        stock: formData.stock,
-        categoria: formData.categoria,
-        estado: formData.estado,
-        imagen: formData.imagen || 'placeholder-producto.webp'
-      };
+      const data = new FormData();
+      data.append('nombre', formData.nombre);
+      data.append('descripcion', formData.descripcion);
+      data.append('precio', formData.precio);
+      data.append('stock', formData.stock);
+      data.append('categoria', formData.categoria);
+      data.append('estado', formData.estado);
+      if (imagenFile) data.append('imagen', imagenFile);
 
-      await productoApi.update(updatedData);
+      await productoApi.updateForm(id, data);
       navigate('/admin/productos');
     } catch (err) {
       setError(err.message);
@@ -90,9 +85,17 @@ function DetalleProducto() {
     if (window.confirm(`¿Estás seguro de ${producto.estado === 'Activo' ? 'desactivar' : 'activar'} este producto?`)) {
       try {
         const estadoActualizado = producto.estado === 'Activo' ? 'Inactivo' : 'Activo';
-        const updatedData = { ...producto, estado: estadoActualizado };
-        await productoApi.update(updatedData);
-        setProducto(updatedData);
+        const update = new FormData();
+        update.append('nombre', formData.nombre);
+        update.append('descripcion', formData.descripcion);
+        update.append('precio', formData.precio);
+        update.append('stock', formData.stock);
+        update.append('categoria', formData.categoria);
+        update.append('estado', estadoActualizado);
+        if (imagenFile) update.append('imagen', imagenFile);
+
+        await productoApi.updateForm(id, update);
+        setProducto({ ...producto, estado: estadoActualizado });
         setFormData({ ...formData, estado: estadoActualizado });
       } catch (err) {
         setError(err.message);
@@ -109,6 +112,7 @@ function DetalleProducto() {
       <h1>Editar Producto #{producto.id}</h1>
 
       <form className="formulario-admin" onSubmit={handleSubmit}>
+        {/* Campos comunes */}
         <div className="grupo-formulario">
           <label>Nombre del Producto</label>
           <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
@@ -124,7 +128,6 @@ function DetalleProducto() {
             <label>Precio (S/)</label>
             <input type="number" name="precio" step="0.01" min="0" value={formData.precio} onChange={handleChange} required />
           </div>
-
           <div className="grupo-formulario" style={{ flex: 1 }}>
             <label>Stock</label>
             <input type="number" name="stock" min="0" value={formData.stock} onChange={handleChange} required />
@@ -148,6 +151,7 @@ function DetalleProducto() {
           </select>
         </div>
 
+        {/* Imagen */}
         <div className="grupo-formulario">
           <label>Imagen del Producto</label>
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginTop: '10px' }}>
@@ -155,9 +159,7 @@ function DetalleProducto() {
               src={previewImage}
               alt="Preview"
               style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #ddd' }}
-              onError={(e) => {
-                e.target.src = '/img/placeholder-producto.webp';
-              }}
+              onError={(e) => { e.target.src = '/img/placeholder-producto.webp'; }}
             />
             <input type="file" accept="image/*" onChange={handleImageChange} />
           </div>

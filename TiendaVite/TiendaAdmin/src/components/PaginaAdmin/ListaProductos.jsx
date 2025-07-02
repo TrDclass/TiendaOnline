@@ -33,7 +33,8 @@ function ListaProductos() {
     }
   };
 
-  const getImageUrl = (imagen) => `/img/${imagen}`;
+  const getImageUrl = (imagen) => `http://localhost:3001/uploads/productos/${imagen}`;
+
 
   if (loading) return <div className="admin-container">Cargando...</div>;
   if (error) return <div className="admin-container">Error: {error}</div>;
@@ -72,7 +73,7 @@ function ListaProductos() {
                   alt="Producto" 
                   style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }}
                   onError={(e) => {
-                    e.target.src = '/img/placeholder-producto.webp';
+                    e.target.src = 'https://img.freepik.com/free-vector/glitch-error-404-page_23-2148105404.jpg';
                   }}
                 />
               </td>
