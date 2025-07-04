@@ -1,32 +1,54 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import productoApi from '../../api/productoApi';
 
-function ListaProductos({ cambiarVista }) {
-  const [productos] = useState([
-    { id: '#001', imagen: 'productoZapatillas.webp', nombre: 'Zapatillas Running Pro', precio: 'S/ 199.00', stock: 25, estado: 'Activo' },
-    { id: '#002', imagen: 'productoCamiseta.webp', nombre: 'Camiseta Deportiva', precio: 'S/ 59.90', stock: 42, estado: 'Activo' },
-    { id: '#003', imagen: 'productoMochila.webp', nombre: 'Mochila Viajera', precio: 'S/ 129.00', stock: 0, estado: 'Activo' },
-    { id: '#004', imagen: 'productoReloj.webp', nombre: 'Reloj Inteligente', precio: 'S/ 299.00', stock: 15, estado: 'Activo' },
-    { id: '#005', imagen: 'productoZapatillas.webp', nombre: 'Zapatillas Running Pro', precio: 'S/ 199.00', stock: 25, estado: 'Activo' },
-    { id: '#006', imagen: 'productoCamiseta.webp', nombre: 'Camiseta Deportiva', precio: 'S/ 59.90', stock: 42, estado: 'Activo' },
-    { id: '#007', imagen: 'productoMochila.webp', nombre: 'Mochila Viajera', precio: 'S/ 129.00', stock: 0, estado: 'Activo' },
-    { id: '#008', imagen: 'productoReloj.webp', nombre: 'Reloj Inteligente', precio: 'S/ 299.00', stock: 15, estado: 'Activo' },
-    { id: '#009', imagen: 'productoZapatillas.webp', nombre: 'Zapatillas Running Pro', precio: 'S/ 199.00', stock: 25, estado: 'Activo' },
-    { id: '#010', imagen: 'productoCamiseta.webp', nombre: 'Camiseta Deportiva', precio: 'S/ 59.90', stock: 42, estado: 'Activo' }
-  ])
+function ListaProductos() {
+  const navigate = useNavigate();
+  const [productos, setProductos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const cargarProductos = async () => {
+      try {
+        const data = await productoApi.findAll();
+        setProductos(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    cargarProductos();
+  }, []);
+
+  const handleEliminar = async (id) => {
+    if (window.confirm('¿Estás seguro de eliminar este producto?')) {
+      try {
+        await productoApi.remove(id);
+        setProductos(productos.filter(p => p.id !== id));
+      } catch (err) {
+        setError(err.message);
+      }
+    }
+  };
+
+  const getImageUrl = (imagen) => `http://localhost:3001/uploads/productos/${imagen}`;
+
+
+  if (loading) return <div className="admin-container">Cargando...</div>;
+  if (error) return <div className="admin-container">Error: {error}</div>;
 
   return (
     <div className="admin-container">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1>Lista de Productos</h1>
-        <button className="btn-admin verde" onClick={() => cambiarVista('agregar-producto')}>+ Agregar Producto</button>
-      </div>
-
-      <div style={{ margin: '20px 0' }}>
-        <input
-          type="text"
-          placeholder="Filtrar por nombre, serie o ID..."
-          style={{ padding: '8px 12px', width: '300px', borderRadius: '4px', border: '1px solid #ccc' }}
-        />
+        <button 
+          className="btn-admin verde" 
+          onClick={() => navigate('/admin/agregar-producto')}
+        >
+          + Agregar Producto
+        </button>
       </div>
 
       <table className="tabla-admin">
@@ -42,39 +64,45 @@ function ListaProductos({ cambiarVista }) {
           </tr>
         </thead>
         <tbody>
-          {productos.map((producto, index) => (
-            <tr key={index}>
-              <td>{producto.id}</td>
-              <td><img src={`/img/${producto.imagen}`} alt="Producto" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
-              <td>{producto.nombre}</td>
-              <td>{producto.precio}</td>
-              <td>{producto.stock}</td>
-              <td className="estado-activo">{producto.estado}</td>
+          {productos.map((producto) => (
+            <tr key={producto.id}>
+              <td>#{producto.id}</td>
               <td>
-                <button className="btn-admin" onClick={() => cambiarVista('detalle-producto')}>Editar</button>
-                <button className="btn-admin secundario">Desactivar</button>
-                <button
-                    className="btn-eliminar"
-                    title="Eliminar"
-                    onClick={() => handleEliminar(cat.id)}
-                  >
-                    🗑️
-                  </button>
+                <img 
+                  src={getImageUrl(producto.imagen)} 
+                  alt="Producto" 
+                  style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }}
+                  onError={(e) => {
+                    e.target.src = 'https://img.freepik.com/free-vector/glitch-error-404-page_23-2148105404.jpg';
+                  }}
+                />
+              </td>
+              <td>{producto.nombre}</td>
+              <td>S/ {producto.precio}</td>
+              <td>{producto.stock}</td>
+              <td className={`estado-${producto.estado?.toLowerCase()}`}>
+                {producto.estado}
+              </td>
+              <td>
+                <button 
+                  className="btn-admin" 
+                  onClick={() => navigate(`/admin/producto/${producto.id}`)}
+                >
+                  Editar
+                </button>
+                <button 
+                  className="btn-admin secundario"
+                  onClick={() => handleEliminar(producto.id)}
+                >
+                  Eliminar
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
-      <div className="paginacion">
-        <button className="activo">1</button>
-        <button>2</button>
-        <button>3</button>
-        <span>...</span>
-        <button>10</button>
-      </div>
     </div>
-  )
+  );
 }
 
-export default ListaProductos
+export default ListaProductos;

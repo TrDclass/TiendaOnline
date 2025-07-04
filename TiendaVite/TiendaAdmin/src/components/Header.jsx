@@ -1,10 +1,24 @@
-function Header({ cambiarVista, navegador }) {
+import { useNavigate } from 'react-router-dom';
+
+function Header({ setIsAdminMode }) {
+  const navigate = useNavigate();
+
+  const handleAdminMode = () => {
+    setIsAdminMode(true);
+    navigate('/admin');
+  };
+
+  const handleUserMode = () => {
+    setIsAdminMode(false);
+    navigate('/');
+  };
+
   return (
     <header className="header-superior">
-      <div className="logo" onClick={() => cambiarVista('principal')}>
+      <div className="logo" onClick={() => navigate('/')}>
         Mi-Tiendita <span className="punto-rojo">●</span>
       </div>
-      <div className="btn-admin secundario" onClick={() => cambiarVista('todo')}>
+      <div className="btn-admin secundario" onClick={() => navigate('/todo')}>
         <button className="btn-admin secundario">
           Todo
         </button>
@@ -15,28 +29,28 @@ function Header({ cambiarVista, navegador }) {
           <img src="/img/icono.png" alt="Buscar" />
         </button>
       </div>
-      <div className="btn-admin verde" onClick={() => navegador('navuser')}>
+      <div className="btn-admin verde" onClick={handleUserMode}>
         <button className="btn-admin verde">
           Modo Usuario
         </button>
       </div>
-      <div className="btn-admin" onClick={() => navegador('navadmin')}>
+      <div className="btn-admin" onClick={handleAdminMode}>
         <button className="btn-admin">
           Modo Admin
         </button>
       </div>
       <div className="acciones-superiores">
         <div className="btn-carrito">
-          <a onClick={() => cambiarVista('carrito')}>🛒 Carrito <span>S/ 100.00</span></a><br />
+          <button onClick={() => navigate('/carrito')}>🛒 Carrito <span>S/ 100.00</span></button>
         </div>
 
         <div className="usuario">
-          <a onClick={() => cambiarVista('login')}>👤 Usuario</a><br />
-          <small onClick={() => cambiarVista('registro')}>Registrar cuenta</small>
+          <button onClick={() => navigate('/login')}>👤 Usuario</button>
+          <small onClick={() => navigate('/registro')}>Registrar cuenta</small>
         </div>
       </div>
     </header>
-  )
+  );
 }
 
-export default Header
+export default Header;

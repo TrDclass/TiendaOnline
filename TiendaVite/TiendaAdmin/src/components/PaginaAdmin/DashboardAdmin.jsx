@@ -1,4 +1,8 @@
-function DashboardAdmin({ cambiarVista }) {
+import { useNavigate, Link } from 'react-router-dom';
+
+function DashboardAdmin() {
+  const navigate = useNavigate();
+
   return (
     <div className="admin-container">
       <h1>Dashboard Administrativo</h1>
@@ -33,7 +37,10 @@ function DashboardAdmin({ cambiarVista }) {
       <div className="seccion-usuarios">
         <div className="encabezado-seccion">
           <h2>Usuarios Registrados</h2>
-          <button className="btn-ver-todos" onClick={() => cambiarVista('usuarios')}>
+          <button 
+            className="btn-ver-todos" 
+            onClick={() => navigate('/admin/usuarios')}
+          >
             Ver todos
           </button>
         </div>
@@ -58,7 +65,12 @@ function DashboardAdmin({ cambiarVista }) {
               <td className="estado-activo">Activo</td>
               <td>
                 <button className="btn-admin secundario">Desactivar</button>
-                <button className="btn-admin" onClick={() => cambiarVista('detalle-usuario')}>Ver Detalle</button>
+                <button 
+                  className="btn-admin" 
+                  onClick={() => navigate('/admin/usuario/001')}
+                >
+                  Ver Detalle
+                </button>
               </td>
             </tr>
             <tr>
@@ -69,7 +81,12 @@ function DashboardAdmin({ cambiarVista }) {
               <td className="estado-activo">Activo</td>
               <td>
                 <button className="btn-admin secundario">Desactivar</button>
-                <button className="btn-admin" onClick={() => cambiarVista('detalle-usuario')}>Ver Detalle</button>
+                <button 
+                  className="btn-admin" 
+                  onClick={() => navigate('/admin/usuario/002')}
+                >
+                  Ver Detalle
+                </button>
               </td>
             </tr>
             <tr>
@@ -80,7 +97,12 @@ function DashboardAdmin({ cambiarVista }) {
               <td className="estado-inactivo">Inactivo</td>
               <td>
                 <button className="btn-admin verde">Activar</button>
-                <button className="btn-admin" onClick={() => cambiarVista('detalle-usuario')}>Ver Detalle</button>
+                <button 
+                  className="btn-admin" 
+                  onClick={() => navigate('/admin/usuario/003')}
+                >
+                  Ver Detalle
+                </button>
               </td>
             </tr>
             <tr>
@@ -91,7 +113,12 @@ function DashboardAdmin({ cambiarVista }) {
               <td className="estado-activo">Activo</td>
               <td>
                 <button className="btn-admin secundario">Desactivar</button>
-                <button className="btn-admin" onClick={() => cambiarVista('detalle-usuario')}>Ver Detalle</button>
+                <button 
+                  className="btn-admin" 
+                  onClick={() => navigate('/admin/usuario/004')}
+                >
+                  Ver Detalle
+                </button>
               </td>
             </tr>
           </tbody>
@@ -100,7 +127,10 @@ function DashboardAdmin({ cambiarVista }) {
 
       <div className="encabezado-seccion">
         <h2>Órdenes Recientes</h2>
-        <button className="btn-ver-todos" onClick={() => cambiarVista('ordenes')}>
+        <button 
+          className="btn-ver-todos" 
+          onClick={() => navigate('/admin/ordenes')}
+        >
           Ver todos
         </button>
       </div>
@@ -117,33 +147,66 @@ function DashboardAdmin({ cambiarVista }) {
         </thead>
         <tbody>
           <tr>
-            <td><a onClick={() => cambiarVista('detalle-orden')}>#1256</a></td>
+            <td>
+              <Link to="/admin/orden/1256" style={{textDecoration: 'none', color: 'inherit'}}>
+                #1256
+              </Link>
+            </td>
             <td>Juan Pérez</td>
             <td>20/05/2025</td>
             <td>S/ 199.00</td>
             <td className="estado-activo">Completado</td>
-            <td><button className="btn-admin" onClick={() => cambiarVista('detalle-orden')}>Ver</button></td>
+            <td>
+              <button 
+                className="btn-admin" 
+                onClick={() => navigate('/admin/orden/1256')}
+              >
+                Ver
+              </button>
+            </td>
           </tr>
           <tr>
-            <td><a onClick={() => cambiarVista('detalle-orden')}>#1255</a></td>
+            <td>
+              <Link to="/admin/orden/1255" style={{textDecoration: 'none', color: 'inherit'}}>
+                #1255
+              </Link>
+            </td>
             <td>María Gómez</td>
             <td>20/05/2025</td>
             <td>S/ 245.00</td>
             <td className="estado-activo">Completado</td>
-            <td><button className="btn-admin" onClick={() => cambiarVista('detalle-orden')}>Ver</button></td>
+            <td>
+              <button 
+                className="btn-admin" 
+                onClick={() => navigate('/admin/orden/1255')}
+              >
+                Ver
+              </button>
+            </td>
           </tr>
           <tr>
-            <td><a onClick={() => cambiarVista('detalle-orden')}>#1254</a></td>
+            <td>
+              <Link to="/admin/orden/1254" style={{textDecoration: 'none', color: 'inherit'}}>
+                #1254
+              </Link>
+            </td>
             <td>Carlos Ruiz</td>
             <td>19/05/2025</td>
             <td>S/ 120.00</td>
             <td className="estado-inactivo">Cancelado</td>
-            <td><button className="btn-admin" onClick={() => cambiarVista('detalle-orden')}>Ver</button></td>
+            <td>
+              <button 
+                className="btn-admin" 
+                onClick={() => navigate('/admin/orden/1254')}
+              >
+                Ver
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
-  )
+  );
 }
 
-export default DashboardAdmin
+export default DashboardAdmin;
