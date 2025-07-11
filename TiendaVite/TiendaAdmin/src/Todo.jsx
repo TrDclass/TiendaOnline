@@ -8,8 +8,8 @@ function Todo() {
       alumno: "Alumno 1",
       funcionalidades: [
         { nombre: "Página Principal", ruta: "/" },
-        { nombre: "Categorias", ruta: "/categorias" },
-        { nombre: "Detalle de producto (antes de agregar a carrito)", ruta: "/producto/:id" },
+        { nombre: "Categorias", ruta: "/categorias/1" },
+        { nombre: "Detalle de producto (antes de agregar a carrito)", ruta: "/productos" },
       ],
     },
     {
