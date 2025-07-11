@@ -3,6 +3,7 @@ import base from './base.js'
 const endpoint = 'producto'
 
 const findAll = async () => await base.get(endpoint);
+const search = async (q) => await base.get(`${endpoint}/search?q=${encodeURIComponent(q)}`);
 const create = async (producto) => {
   const formData = new FormData();
   for (let key in producto) {
@@ -27,7 +28,7 @@ const updateForm = async (id, payload) => {
   }).then(res => res.json());
 };
 
-const api = { findAll, create, update, updateForm, remove, findOne };
+const api = { findAll, search, create, update, updateForm, remove, findOne };
 
 
 export default api;

@@ -1,3 +1,5 @@
+import { useLocation } from "react-router-dom";
+
 function ProductosxCategoria() {
   const categorias = [
     "Frutas y verduras",
@@ -25,6 +27,16 @@ function ProductosxCategoria() {
     { nombre: "Pithaya", categoria: "Frutas y verduras", precio: "S/5.89 X KG", img: "../public/imgC/pitahaya.png" }
   ];
 
+  // --- NUEVO: leer el parámetro de búsqueda de la URL ---
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const query = params.get('q')?.toLowerCase() || "";
+
+  // --- NUEVO: filtrar los productos si hay búsqueda ---
+  const productosFiltrados = query
+    ? productos.filter(p => p.nombre.toLowerCase().includes(query))
+    : productos;
+
   return (
     <section className="contenedor-categorias-productos">
       <nav className="menu-lateral">
@@ -37,17 +49,19 @@ function ProductosxCategoria() {
 
       <div className="main-productos">
         <div className="productos-grid">
-          {productos.map((prod, idx) => (
-            <div key={idx} className="producto-card">
-              <img src={prod.img} alt={prod.nombre} />
-              <h4>{prod.nombre}</h4>
-              <p className="categoria">{prod.categoria}</p>
-              <p className="precio">{prod.precio}</p>
-              <button className="boton-agregar">AGREGAR</button>
-            </div>
-          ))}
+          {productosFiltrados.length === 0
+            ? <p>No se encontraron productos.</p>
+            : productosFiltrados.map((prod, idx) => (
+              <div key={idx} className="producto-card">
+                <img src={prod.img} alt={prod.nombre} />
+                <h4>{prod.nombre}</h4>
+                <p className="categoria">{prod.categoria}</p>
+                <p className="precio">{prod.precio}</p>
+                <button className="boton-agregar">AGREGAR</button>
+              </div>
+            ))
+          }
         </div>
-
         <div className="indice">
           <button className="indicebtn">
             <span>&lt;</span>
@@ -61,11 +75,8 @@ function ProductosxCategoria() {
             <span>&gt;</span>
           </button>
         </div>
-        
       </div>  
-      
     </section>
   );
 }
-
-export default ProductosxCategoria
+export default ProductosxCategoria;

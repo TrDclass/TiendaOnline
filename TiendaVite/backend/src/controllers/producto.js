@@ -34,4 +34,10 @@ const remove = async (req, res) => {
   res.json(result);
 };
 
-export default { findAll, findOne, create, update, remove };
+const searchByName = async (req, res) => {
+    const { q } = req.query;
+    const results = await repository.searchByName(q || '');
+    res.json(results);
+};
+
+export default { findAll, findOne, create, update, remove, searchByName };
