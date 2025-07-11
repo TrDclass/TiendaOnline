@@ -9,7 +9,7 @@ function NavbarUser() {
       <ul>
         <li>
           <NavLink 
-            to="/categorias" 
+            to="/categorias/1" 
             className={({ isActive }) => isActive ? 'active' : ''}
           >
             ☰ Categorías
