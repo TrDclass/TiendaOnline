@@ -6,6 +6,7 @@ import { join } from 'path';
 import productoRouter from './src/routes/producto.js';
 import usersRouter from './src/routes/users.js';
 import loginRouter from './src/routes/login.js';
+import carritoRouter from './src/routes/carrito.js';
 
 const app = express();
 
@@ -22,5 +23,7 @@ app.get('/', (req, res) => {
 app.use('/producto', productoRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
+app.use('/carrito', carritoRouter);
+
 
 export default app;
