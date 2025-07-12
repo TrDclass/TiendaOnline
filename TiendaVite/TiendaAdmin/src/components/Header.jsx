@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 function Header({ setIsAdminMode }) {
   const navigate = useNavigate();
   const [busqueda, setBusqueda] = useState('');
+  const [mostrarControles, setMostrarControles] = useState(false); // Estado para ocultar/mostrar los botones
 
   const handleAdminMode = () => {
     setIsAdminMode(true);
@@ -22,16 +23,38 @@ function Header({ setIsAdminMode }) {
     }
   };
 
+  const toggleControles = (e) => {
+    e.stopPropagation(); // Previene que el clic en el punto rojo dispare el del logo
+    setMostrarControles(prev => !prev);
+  };
+
   return (
     <header className="header-superior">
-      <div className="logo" onClick={() => navigate('/')}>
-        Mi-Tiendita <span className="punto-rojo">●</span>
+      <div
+        className="logo"
+        onClick={() => navigate('/')}
+        style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+      >
+        Mi-Tiendita
+        <span className="punto-rojo" onClick={toggleControles} style={{ cursor: 'pointer' }}>
+          ●
+        </span>
       </div>
-      <div className="btn-admin secundario" onClick={() => navigate('/todo')}>
-        <button className="btn-admin secundario">
-          Todo
-        </button>
-      </div>
+
+      {mostrarControles && (
+        <>
+          <div className="btn-admin secundario" onClick={() => navigate('/todo')}>
+            <button className="btn-admin secundario">Todo</button>
+          </div>
+          <div className="btn-admin verde" onClick={handleUserMode}>
+            <button className="btn-admin verde">Modo Usuario</button>
+          </div>
+          <div className="btn-admin" onClick={handleAdminMode}>
+            <button className="btn-admin">Modo Admin</button>
+          </div>
+        </>
+      )}
+
       <form className="buscador" onSubmit={handleSearch}>
         <input
           type="text"
@@ -43,19 +66,12 @@ function Header({ setIsAdminMode }) {
           <img src="/img/icono.png" alt="Buscar" />
         </button>
       </form>
-      <div className="btn-admin verde" onClick={handleUserMode}>
-        <button className="btn-admin verde">
-          Modo Usuario
-        </button>
-      </div>
-      <div className="btn-admin" onClick={handleAdminMode}>
-        <button className="btn-admin">
-          Modo Admin
-        </button>
-      </div>
+
       <div className="acciones-superiores">
         <div className="btn-carrito">
-          <button onClick={() => navigate('/carrito')}>🛒 Carrito <span>S/ 100.00</span></button>
+          <button onClick={() => navigate('/carrito')}>
+            🛒 Carrito <span>S/ 100.00</span>
+          </button>
         </div>
 
         <div className="usuario">

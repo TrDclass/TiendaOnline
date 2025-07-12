@@ -23,54 +23,6 @@ function NavbarUser() {
             Productos
           </NavLink>
         </li>
-        <li>
-          <NavLink 
-            to="/nosotros" 
-            className={({ isActive }) => isActive ? 'active' : ''}
-          >
-            Nosotros
-          </NavLink>
-        </li>
-        <li>
-          <NavLink 
-            to="/checkout" 
-            className={({ isActive }) => isActive ? 'active' : ''}
-          >
-            Checkout
-          </NavLink>
-        </li>
-        <li>
-          <NavLink 
-            to="/checkout/metodo-pago" 
-            className={({ isActive }) => isActive ? 'active' : ''}
-          >
-            Método De Pago
-          </NavLink>
-        </li>
-        <li>
-          <NavLink 
-            to="/checkout/metodo-pago/pago-1" 
-            className={({ isActive }) => isActive ? 'active' : ''}
-          >
-            Pago1
-          </NavLink>
-        </li>
-        <li>
-          <NavLink 
-            to="/checkout/metodo-pago/pago-2" 
-            className={({ isActive }) => isActive ? 'active' : ''}
-          >
-            Pago2
-          </NavLink>
-        </li>
-        <li>
-          <NavLink 
-            to="/pedido-completo" 
-            className={({ isActive }) => isActive ? 'active' : ''}
-          >
-            Pedido Completo
-          </NavLink>
-        </li>
       </ul>
       <div className="ofertas">Ofertas 👋</div>
     </nav>

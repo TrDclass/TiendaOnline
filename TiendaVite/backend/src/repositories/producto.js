@@ -39,13 +39,13 @@ const searchByName = async (name) => {
     return await Producto.findAll({
         where: {
             nombre: {
-                [Op.iLike]: `%${name}%`  // Usar Op.iLike para Postgres, Op.like para MySQL
+                [Op.iLike]: `%${name}%`  
             }
         }
     });
 };
 
-import { Op } from 'sequelize'; // al inicio del archivo
+import { Op } from 'sequelize'; 
 
 const repository = { findAll, findOne, create, update, remove, searchByName }
 
