@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import productoApi from "../../../api/productoApi";
+import { useNavigate } from "react-router-dom"; //Especifico
 
 function MasVendidos() {
   const [productos, setProductos] = useState([]);
   const [pagina, setPagina] = useState(0);
   const porPagina = 5; // Número de productos visibles a la vez
+  const navigate = useNavigate(); //especifico
 
   useEffect(() => {
     const cargarProductos = async () => {
@@ -39,10 +41,12 @@ function MasVendidos() {
           {productosPagina.map((prod) => (
             <div key={prod.id} className="producto-card">
               <img
-                src={`http://localhost:3001/uploads/productos/${prod.imagen}`}
-                alt={prod.nombre}
-                onError={e => { e.target.src = 'https://img.freepik.com/free-vector/glitch-error-404-page_23-2148105404.jpg'; }}
-              />
+                  src={`http://localhost:3001/uploads/productos/${prod.imagen}`}
+                  alt={prod.nombre}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => navigate(`/productos/${prod.id}`)}
+                  onError={e => { e.target.src = 'https://img.freepik.com/free-vector/glitch-error-404-page_23-2148105404.jpg' }}
+                />
               <h4>{prod.nombre}</h4>
               <p className="categoria">{prod.categoria}</p>
               <p className="precio">S/ {prod.precio}</p>
