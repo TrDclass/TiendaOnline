@@ -1,22 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import productoApi from '../../api/productoApi';
+import ListaCategoriaApi from '../../api/ListaCategoriaApi';
 
 function AgregarProducto() {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     nombre: '',
     descripcion: '',
     precio: '',
     stock: '',
-    categoria: 'Zapatillas',
+    categoria: '',
     estado: 'Activo',
-    imagen: null, // aquí irá el archivo File
+    imagen: null,
   });
 
   const [previewImage, setPreviewImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [categorias, setCategorias] = useState([]);
+
+  // Cargar categorías desde la API
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const response = await ListaCategoriaApi.findAll();
+        const data = response.data ?? response; // soporte para ambos formatos
+        setCategorias(data);
+
+        // Si no hay categoría seleccionada, asignar la primera disponible
+        if (data.length > 0) {
+          setFormData((prev) => ({
+            ...prev,
+            categoria: data[0].nombre,
+          }));
+        }
+      } catch (err) {
+        console.error('Error al cargar las categorías:', err);
+        setCategorias([]); // Evita undefined
+      }
+    };
+
+    fetchCategorias();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -113,9 +140,15 @@ function AgregarProducto() {
             onChange={handleChange}
             required
           >
-            <option value="Zapatillas">Zapatillas</option>
-            <option value="Ropa">Ropa</option>
-            <option value="Accesorios">Accesorios</option>
+            {categorias.length === 0 ? (
+              <option disabled>Cargando categorías...</option>
+            ) : (
+              categorias.map((cat) => (
+                <option key={cat.id} value={cat.nombre}>
+                  {cat.nombre}
+                </option>
+              ))
+            )}
           </select>
         </div>
 
