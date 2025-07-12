@@ -10,7 +10,7 @@ const findOne = async (id) => {
 };
 
 const create = async (Listacategoria) => {
-  return await ListaCategoria.create(categoria);
+  return await ListaCategoria.create(Listacategoria);
 };
 
 const update = async (id, Listacategoria) => {

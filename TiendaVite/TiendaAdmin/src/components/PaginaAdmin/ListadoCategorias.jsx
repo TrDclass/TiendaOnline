@@ -1,61 +1,54 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
+import ListaCategoriaApi from '../../api/ListaCategoriaApi';
+import AgregarCategoria from './AgregarCategoria';
 
-const categoriasIniciales = [
-  {
-    id: 1,
-    nombre: 'Frutas y verduras',
-    descripcion: 'Esta categoría incluye una amplia variedad de productos frescos y naturales, desde frutas tropicales hasta verduras de temporada, perfectas para una dieta saludable y equilibrada.',
-  },
-  {
-    id: 2,
-    nombre: 'Carnes, aves y pescados',
-    descripcion: 'Aquí encontrarás una selección de carnes rojas, blancas y productos del mar, todos de alta calidad, ideales para preparar comidas nutritivas y deliciosas para cualquier ocasión.',
-  },
-  {
-    id: 3,
-    nombre: 'Abarrotes',
-    descripcion: 'En esta categoría se agrupan productos no perecederos como granos, pastas, enlatados, aceites, condimentos y más, esenciales para tener siempre a mano en la despensa de tu hogar.',
-  },
-  {
-    id: 4,
-    nombre: 'Panadería',
-    descripcion: 'Todo lo relacionado con panes, pasteles, galletas y productos horneados. Ideal para quienes disfrutan de un buen pan fresco o dulces artesanales, preparados con ingredientes de la mejor calidad.',
-  },
-  {
-    id: 5,
-    nombre: 'Congelados',
-    descripcion: 'Aquí podrás encontrar una variedad de productos congelados como vegetales, frutas, carnes, pescados y platos listos para calentar, lo que hace fácil y rápido preparar una comida casera.',
-  },
-  {
-    id: 6,
-    nombre: 'Juguetes',
-    descripcion: 'Esta categoría abarca una amplia gama de juguetes educativos, creativos y de entretenimiento para niños de todas las edades, diseñados para estimular su desarrollo y proporcionarles horas de diversión.',
-  },
-  {
-    id: 7,
-    nombre: 'Ropa',
-    descripcion: 'Encuentra ropa de temporada, calzado y accesorios para toda la familia, en diferentes estilos y tamaños, para cada ocasión, desde ropa casual hasta formal, con un enfoque en comodidad y moda.',
-  },
-];
-
-function ListadoCategorias({ cambiarVista }) {
-  const [categorias, setCategorias] = useState(categoriasIniciales);
+function ListadoCategorias() {
+  const [categorias, setCategorias] = useState([]);
   const [busqueda, setBusqueda] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [formVisible, setFormVisible] = useState(false); // Para mostrar/ocultar el formulario de agregar categoría
+
+  useEffect(() => {
+    const cargarCategorias = async () => {
+      try {
+        const data = await ListaCategoriaApi.findAll();
+        setCategorias(data);
+      } catch (err) {
+        setError("Error al cargar las categorías");
+      } finally {
+        setLoading(false);
+      }
+    };
+    cargarCategorias();
+  }, []);
 
   const categoriasFiltradas = categorias.filter(cat =>
     cat.nombre.toLowerCase().includes(busqueda.toLowerCase())
   );
 
-  const handleEliminar = (id) => {
+  const handleEliminar = async (id) => {
     if (window.confirm('¿Estás seguro que deseas eliminar esta categoría?')) {
-      setCategorias(categorias.filter(cat => cat.id !== id));
+      try {
+        await ListaCategoriaApi.remove(id);
+        setCategorias(categorias.filter(cat => cat.id !== id));
+      } catch (err) {
+        setError("Error al eliminar la categoría");
+      }
     }
   };
 
   const handleAgregar = () => {
-    alert('Función para agregar categoría aún no implementada');
+    setFormVisible(true); // Muestra el formulario para agregar una categoría
   };
 
+  const onCategoriaCreada = (nuevaCategoria) => {
+    setCategorias((prevCategorias) => [...prevCategorias, nuevaCategoria]);
+    setFormVisible(false); // Oculta el formulario después de agregar la categoría
+  };
+
+  if (loading) return <main className="contenido-principal">Cargando categorías...</main>;
+  if (error) return <main className="contenido-principal">Error: {error}</main>;
 
   return (
     <main className="contenido-principal">
@@ -64,12 +57,15 @@ function ListadoCategorias({ cambiarVista }) {
       <div className="buscador-contenido">
         <input
           type="text"
-          placeholder="Buscar un producto..."
+          placeholder="Buscar una categoría..."
           value={busqueda}
           onChange={e => setBusqueda(e.target.value)}
         />
-        <button className="btn-agregar" onClick={handleAgregar}> + Agregar categoría</button>
+        <button className="btn-agregar" onClick={handleAgregar}>+ Agregar categoría</button>
       </div>
+
+      {/* Mostrar el formulario de agregar categoría si formVisible es true */}
+      {formVisible && <AgregarCategoria onCategoriaCreada={onCategoriaCreada} />}
 
       <div className="tabla-wrapper">
         <table>
@@ -81,28 +77,29 @@ function ListadoCategorias({ cambiarVista }) {
             </tr>
           </thead>
           <tbody>
-            {categoriasFiltradas.length === 0 && (
+            {categoriasFiltradas.length === 0 ? (
               <tr>
                 <td colSpan="3" style={{ textAlign: 'center', padding: '20px' }}>
                   No hay categorías para mostrar
                 </td>
               </tr>
+            ) : (
+              categoriasFiltradas.map(cat => (
+                <tr key={cat.id}>
+                  <td><strong>{cat.nombre}</strong></td>
+                  <td>{cat.descripcion}</td>
+                  <td className="acciones">
+                    <button
+                      className="btn-eliminar"
+                      title="Eliminar"
+                      onClick={() => handleEliminar(cat.id)}
+                    >
+                      🗑️
+                    </button>
+                  </td>
+                </tr>
+              ))
             )}
-            {categoriasFiltradas.map(cat => (
-              <tr key={cat.id}>
-                <td><strong>{cat.nombre}</strong></td>
-                <td>{cat.descripcion}</td>
-                <td className="acciones">
-                  <button
-                    className="btn-eliminar"
-                    title="Eliminar"
-                    onClick={() => handleEliminar(cat.id)}
-                  >
-                    🗑️
-                  </button>
-                </td>
-              </tr>
-            ))}
           </tbody>
         </table>
       </div>
@@ -110,4 +107,4 @@ function ListadoCategorias({ cambiarVista }) {
   );
 }
 
-export default ListadoCategorias
+export default ListadoCategorias;

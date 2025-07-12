@@ -1,11 +1,10 @@
 import sequelize from './src/config/database.js';
 import personaUsuaria from './src/models/personaUsuaria.js';
-import moment from 'moment'; // Para formatear la fecha
+import moment from 'moment'; 
 
 async function insertarDatos() {
     try {
-        // Sincroniza la base de datos para asegurarte de que los cambios en el modelo sean reflejados
-        await sequelize.sync({ alter: true }); // Esto actualizará la estructura de las tablas
+        await sequelize.sync({ alter: true }); 
 
         await personaUsuaria.bulkCreate([
             {
