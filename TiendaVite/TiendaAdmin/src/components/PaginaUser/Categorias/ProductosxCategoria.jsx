@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import productoApi from '../../../api/productoApi'
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ProductosxCategoria() {
   const [productos, setProductos] = useState([]);
@@ -11,6 +12,8 @@ function ProductosxCategoria() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const query = params.get('q')?.toLowerCase() || "";
+
+  const navigate = useNavigate();
 
   // Cargar productos desde el backend
   useEffect(() => {
@@ -68,6 +71,8 @@ function ProductosxCategoria() {
                 <img
                   src={`http://localhost:3001/uploads/productos/${prod.imagen}`}
                   alt={prod.nombre}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => navigate(`/productos/${prod.id}`)}
                   onError={e => { e.target.src = 'https://img.freepik.com/free-vector/glitch-error-404-page_23-2148105404.jpg' }}
                 />
                 <h4>{prod.nombre}</h4>
