@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import productoApi from '../../api/productoApi';
+import ListaCategoriaApi from '../../api/ListaCategoriaApi'; // <-- Importar API
 
 function DetalleProducto() {
   const navigate = useNavigate();
   const { id } = useParams();
+  
   const [producto, setProducto] = useState(null);
+  const [categorias, setCategorias] = useState([]); // <-- Nuevo estado
   const [formData, setFormData] = useState({
     nombre: '',
     descripcion: '',
     precio: '',
     stock: '',
-    categoria: 'Zapatillas',
+    categoria: '',
     estado: 'Activo',
     imagen: null
   });
@@ -21,27 +24,36 @@ function DetalleProducto() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const cargarProducto = async () => {
+    const cargarDatos = async () => {
       try {
-        const data = await productoApi.findOne(id);
-        setProducto(data);
+        const [productoData, categoriasData] = await Promise.all([
+          productoApi.findOne(id),
+          ListaCategoriaApi.findAll()
+        ]);
+        
+        const categorias = categoriasData.data || categoriasData;
+        setCategorias(categorias);
+
+        setProducto(productoData);
         setFormData({
-          nombre: data.nombre,
-          descripcion: data.descripcion,
-          precio: data.precio,
-          stock: data.stock,
-          categoria: data.categoria || 'Zapatillas',
-          estado: data.estado,
-          imagen: data.imagen
+          nombre: productoData.nombre,
+          descripcion: productoData.descripcion,
+          precio: productoData.precio,
+          stock: productoData.stock,
+          categoria: productoData.categoria || (categorias[0]?.nombre || ''),
+          estado: productoData.estado,
+          imagen: productoData.imagen
         });
-        setPreviewImage(`/img/${data.imagen}`);
+
+        setPreviewImage(`/img/${productoData.imagen}`);
       } catch (err) {
-        setError(err.message);
+        setError(err.message || 'Error al cargar datos');
       } finally {
         setLoading(false);
       }
     };
-    cargarProducto();
+
+    cargarDatos();
   }, [id]);
 
   const handleChange = (e) => {
@@ -112,7 +124,6 @@ function DetalleProducto() {
       <h1>Editar Producto #{producto.id}</h1>
 
       <form className="formulario-admin" onSubmit={handleSubmit}>
-        {/* Campos comunes */}
         <div className="grupo-formulario">
           <label>Nombre del Producto</label>
           <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
@@ -137,9 +148,15 @@ function DetalleProducto() {
         <div className="grupo-formulario">
           <label>Categoría</label>
           <select name="categoria" value={formData.categoria} onChange={handleChange} required>
-            <option value="Zapatillas">Zapatillas</option>
-            <option value="Ropa">Ropa</option>
-            <option value="Accesorios">Accesorios</option>
+            {categorias.length === 0 ? (
+              <option disabled>Cargando categorías...</option>
+            ) : (
+              categorias.map((cat) => (
+                <option key={cat.id} value={cat.nombre}>
+                  {cat.nombre}
+                </option>
+              ))
+            )}
           </select>
         </div>
 
@@ -151,7 +168,6 @@ function DetalleProducto() {
           </select>
         </div>
 
-        {/* Imagen */}
         <div className="grupo-formulario">
           <label>Imagen del Producto</label>
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginTop: '10px' }}>
