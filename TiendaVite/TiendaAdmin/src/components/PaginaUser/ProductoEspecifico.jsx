@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import DescripcionProducto from './ProductoEspecifico/DescripcionProducto'
-import MasVendidos from './ProductoEspecifico/MasVendidos'
+import MasVendidos from './PaginaPripal/MasVendidos'
 
 function ProductoEspecifico(){
     return(
