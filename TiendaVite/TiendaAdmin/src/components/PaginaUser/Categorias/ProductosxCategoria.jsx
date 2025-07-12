@@ -9,6 +9,8 @@ function ProductosxCategoria() {
   const [loading, setLoading] = useState(true);
   const [categorias, setCategorias] = useState([]);
   const [orden, setOrden] = useState('nombre-asc'); // NUEVO: estado para orden
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
+
 
   // Para búsqueda
   const location = useLocation();
@@ -45,9 +47,14 @@ function ProductosxCategoria() {
   }, []);
 
   // Filtro por búsqueda (opcional)
-  const productosFiltrados = query
-    ? productos.filter(p => p.nombre.toLowerCase().includes(query) || p.categoria.toLowerCase().includes(query))
-    : productos;
+  const productosFiltrados = productos.filter(p => {
+  const coincideBusqueda = !query || 
+    p.nombre.toLowerCase().includes(query) || 
+    p.categoria.toLowerCase().includes(query);
+  const coincideCategoria = !categoriaSeleccionada || 
+    p.categoria.toLowerCase() === categoriaSeleccionada.toLowerCase();
+  return coincideBusqueda && coincideCategoria;
+  });
 
   // Ordenar productos según selección
   const productosOrdenados = [...productosFiltrados].sort((a, b) => {
@@ -64,8 +71,23 @@ function ProductosxCategoria() {
     <section className="contenedor-categorias-productos">
       <nav className="menu-lateral">
         <ul>
+          <li
+            key="todas"
+            className={!categoriaSeleccionada ? "activo" : ""}
+            style={{ cursor: 'pointer' }}
+            onClick={() => setCategoriaSeleccionada(null)}
+          >
+            Todas
+          </li>
           {categorias.map((cat) => (
-            <li key={cat.id}>{cat.nombre}</li>
+            <li
+              key={cat.id}
+              className={categoriaSeleccionada === cat.nombre ? "activo" : ""}
+              style={{ cursor: 'pointer' }}
+              onClick={() => setCategoriaSeleccionada(cat.nombre)}
+            >
+              {cat.nombre}
+            </li>
           ))}
         </ul>
       </nav>

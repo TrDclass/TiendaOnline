@@ -8,7 +8,7 @@ async function insertarDatos() {
         await ListaCategoria.bulkCreate([  
             {
                 id: 1564,
-                nombre: 'Fruta y verduras',
+                nombre: 'Frutas y verduras',    
                 descripcion: 'Esta categoría incluye una amplia variedad de productos frescos y naturales, desde frutas tropicales hasta verduras de temporada, perfectas para una dieta saludable y equilibrada.',
             },
             {
