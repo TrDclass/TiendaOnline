@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 function ProductosxCategoria() {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [orden, setOrden] = useState('nombre-asc'); // NUEVO: estado para orden
 
   // Para búsqueda
   const location = useLocation();
@@ -24,24 +25,51 @@ function ProductosxCategoria() {
 
   // Filtro por búsqueda (opcional)
   const productosFiltrados = query
-    ? productos.filter(p => p.nombre.toLowerCase().includes(query))
+    ? productos.filter(p => p.nombre.toLowerCase().includes(query) || p.categoria.toLowerCase().includes(query))
     : productos;
 
-  // Render
+  // Ordenar productos según selección
+  const productosOrdenados = [...productosFiltrados].sort((a, b) => {
+    if (orden === 'nombre-asc') return a.nombre.localeCompare(b.nombre);
+    if (orden === 'nombre-desc') return b.nombre.localeCompare(a.nombre);
+    if (orden === 'precio-asc') return a.precio - b.precio;
+    if (orden === 'precio-desc') return b.precio - a.precio;
+    return 0;
+  });
+
   if (loading) return <div>Cargando productos...</div>;
 
   return (
     <section className="contenedor-categorias-productos">
       <nav className="menu-lateral">
-        {/* ... tu menú lateral ... */}
+        {/*
+        <ul>
+          {categorias.map((cat, idx) => (
+            <li key={idx} className={idx === 0 ? "activo" : ""}>{cat}</li>
+          ))}
+        </ul>
+        */}
       </nav>
       <div className="main-productos">
+        <div style={{ marginBottom: 16 }}>
+          <label>Ordenar por: </label>
+          <select value={orden} onChange={e => setOrden(e.target.value)}>
+            <option value="nombre-asc">Nombre A-Z</option>
+            <option value="nombre-desc">Nombre Z-A</option>
+            <option value="precio-asc">Precio Menor a Mayor</option>
+            <option value="precio-desc">Precio Mayor a Menor</option>
+          </select>
+        </div>
         <div className="productos-grid">
-          {productosFiltrados.length === 0
+          {productosOrdenados.length === 0
             ? <p>No se encontraron productos.</p>
-            : productosFiltrados.map((prod) => (
+            : productosOrdenados.map((prod) => (
               <div key={prod.id} className="producto-card">
-                <img src={`http://localhost:3001/uploads/productos/${prod.imagen}`} alt={prod.nombre} />
+                <img
+                  src={`http://localhost:3001/uploads/productos/${prod.imagen}`}
+                  alt={prod.nombre}
+                  onError={e => { e.target.src = 'https://img.freepik.com/free-vector/glitch-error-404-page_23-2148105404.jpg' }}
+                />
                 <h4>{prod.nombre}</h4>
                 <p className="categoria">{prod.categoria}</p>
                 <p className="precio">S/ {prod.precio}</p>
