@@ -40,6 +40,11 @@ async function insertarDatos() {
                 id: 882,
                 nombre: 'Ropa',
                 descripcion: 'Encuentra ropa de temporada, calzado y accesorios para toda la familia, en diferentes estilos y tamaños, para cada ocasión, desde ropa casual hasta formal, con un enfoque en comodidad y moda.',
+            },
+            {
+                id: 15687,
+                nombre: 'Accesorios',
+                descripcion: 'Esta categoría incluye una amplia variedad de accesorios de tipo electronico o para viajes',
             }
         ]);
 

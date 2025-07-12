@@ -2,10 +2,12 @@ import { useLocation } from "react-router-dom";
 import productoApi from '../../../api/productoApi'
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ListaCategoriaApi from '../../../api/ListaCategoriaApi'
 
 function ProductosxCategoria() {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [categorias, setCategorias] = useState([]);
   const [orden, setOrden] = useState('nombre-asc'); // NUEVO: estado para orden
 
   // Para búsqueda
@@ -14,6 +16,22 @@ function ProductosxCategoria() {
   const query = params.get('q')?.toLowerCase() || "";
 
   const navigate = useNavigate();
+
+  //Cargar Categorias
+  useEffect(() => {
+    const cargar = async () => {
+      setLoading(true);
+      const [productosData, categoriasData] = await Promise.all([
+        productoApi.findAll(),
+        ListaCategoriaApi.findAll()
+      ]);
+      setProductos(productosData);
+      setCategorias(categoriasData);
+      setLoading(false);
+    };
+    cargar();
+  }, []);
+
 
   // Cargar productos desde el backend
   useEffect(() => {
@@ -45,13 +63,11 @@ function ProductosxCategoria() {
   return (
     <section className="contenedor-categorias-productos">
       <nav className="menu-lateral">
-        {/*
         <ul>
-          {categorias.map((cat, idx) => (
-            <li key={idx} className={idx === 0 ? "activo" : ""}>{cat}</li>
+          {categorias.map((cat) => (
+            <li key={cat.id}>{cat.nombre}</li>
           ))}
         </ul>
-        */}
       </nav>
       <div className="main-productos">
         <div style={{ marginBottom: 16 }}>
