@@ -1,15 +1,15 @@
-import PersonaUsuaria from '../models/personaUsuaria.js';
+import personaUsuaria from '../models/personaUsuaria.js';
 
-const findAll = async () => await PersonaUsuaria.findAll();
-const findOne = async (id) => await PersonaUsuaria.findByPk(id);
-const create = async (payload) => await PersonaUsuaria.create(payload);
+const findAll = async () => await personaUsuaria.findAll();
+const findOne = async (id) => await personaUsuaria.findByPk(id);
+const create = async (payload) => await personaUsuaria.create(payload);
 const update = async (payload) => {
-  const item = await PersonaUsuaria.findByPk(payload.id);
+  const item = await personaUsuaria.findByPk(payload.id);
   if (item) return await item.update(payload);
   return null;
 };
 const remove = async (id) => {
-  const item = await PersonaUsuaria.findByPk(id);
+  const item = await personaUsuaria.findByPk(id);
   if (item) { await item.destroy(); return true; }
   return false;
 };

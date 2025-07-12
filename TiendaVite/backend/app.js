@@ -29,5 +29,4 @@ app.use('/carrito', carritoRouter);
 app.use('/personaUsuaria', personaUsuariaRouter); 
 app.use('/ListaCategoria',ListaCategoriaRouter);
 
-
 export default app;
