@@ -3,6 +3,8 @@ import productoApi from '../../../api/productoApi'
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ListaCategoriaApi from '../../../api/ListaCategoriaApi'
+import carritoApi from '../../../api/carritoApi';
+
 
 function ProductosxCategoria() {
   const [productos, setProductos] = useState([]);
@@ -12,7 +14,7 @@ function ProductosxCategoria() {
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
 
 
-  // Para búsqueda
+  // Para búsqueda        
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const query = params.get('q')?.toLowerCase() || "";
@@ -21,7 +23,7 @@ function ProductosxCategoria() {
 
   //Cargar Categorias
   useEffect(() => {
-    const cargar = async () => {
+    const cargar = async () => {    
       setLoading(true);
       const [productosData, categoriasData] = await Promise.all([
         productoApi.findAll(),
@@ -46,6 +48,31 @@ function ProductosxCategoria() {
     cargar();
   }, []);
 
+
+  // 👉 FUNCIÓN para agregar al carrito
+  const agregarAlCarrito = async (productoId) => {
+    try {
+      const existente = await carritoApi.findOne(productoId);
+      if (existente) {
+        await carritoApi.update({
+          id: existente.id,
+          cantidad: existente.cantidad + 1,
+        });
+      } else {
+        await carritoApi.create({
+          producto_id: productoId,
+          cantidad: 1,
+        });
+      }
+      alert("Producto agregado al carrito");
+    } catch (error) {
+      console.error("Error al agregar al carrito", error);
+      alert("Ocurrió un error al agregar el producto.");
+    }
+  };
+
+
+
   // Filtro por búsqueda (opcional)
   const productosFiltrados = productos.filter(p => {
   const coincideBusqueda = !query || 
@@ -57,7 +84,7 @@ function ProductosxCategoria() {
   });
 
   // Ordenar productos según selección
-  const productosOrdenados = [...productosFiltrados].sort((a, b) => {
+  const productosOrdenados = [...productosFiltrados].sort((a, b) => { 
     if (orden === 'nombre-asc') return a.nombre.localeCompare(b.nombre);
     if (orden === 'nombre-desc') return b.nombre.localeCompare(a.nombre);
     if (orden === 'precio-asc') return a.precio - b.precio;
@@ -85,7 +112,7 @@ function ProductosxCategoria() {
               className={categoriaSeleccionada === cat.nombre ? "activo" : ""}
               style={{ cursor: 'pointer' }}
               onClick={() => setCategoriaSeleccionada(cat.nombre)}
-            >
+             >
               {cat.nombre}
             </li>
           ))}
@@ -112,16 +139,21 @@ function ProductosxCategoria() {
                   style={{ cursor: 'pointer' }}
                   onClick={() => navigate(`/productos/${prod.id}`)}
                   onError={e => { e.target.src = 'https://img.freepik.com/free-vector/glitch-error-404-page_23-2148105404.jpg' }}
-                />
+                />  
                 <h4>{prod.nombre}</h4>
                 <p className="categoria">{prod.categoria}</p>
                 <p className="precio">S/ {prod.precio}</p>
-                <button className="boton-agregar">AGREGAR</button>
+                <button
+                  className="boton-agregar"
+                  onClick={() => agregarAlCarrito(prod.id)}
+                >
+                  AGREGAR 
+                </button>
               </div>
             ))
           }
         </div>
-        <div className="indice">
+        <div className="indice">  
           <button className="indicebtn">
             <span>&lt;</span>
           </button>
