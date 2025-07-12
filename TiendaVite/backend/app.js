@@ -7,6 +7,7 @@ import productoRouter from './src/routes/producto.js';
 import usersRouter from './src/routes/users.js';
 import loginRouter from './src/routes/login.js';
 import carritoRouter from './src/routes/carrito.js';
+import personaUsuariaRouter from './src/routes/personaUsuaria.js';
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/producto', productoRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/carrito', carritoRouter);
+app.use('/personaUsuaria', personaUsuariaRouter); 
 
 
 export default app;
