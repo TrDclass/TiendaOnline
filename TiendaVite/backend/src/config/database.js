@@ -29,9 +29,9 @@ const sequelize = new Sequelize(database, username, password, {
     dialectOptions: {
         ssl: {
             require: true,
-            rejectUnauthorized: false // Desactiva verificación del certificado (opcional)
+            rejectUnauthorized: false 
         }
     },
-    logging: false // desactiva logs SQL, útil para producción
+    logging: false 
 });
 export default sequelize;
