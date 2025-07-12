@@ -28,7 +28,7 @@ function ContenidoUsuario() {
     cargarDatos();
   }, []);
 
-  const usuario = usuarios[0]; // Usamos el primer usuario como ejemplo
+  const usuario = usuarios[0];
 
   const getImageUrl = (foto) => `/img/${foto || 'default.png'}`;
 
@@ -74,38 +74,26 @@ function ContenidoUsuario() {
       <div className="parte-ordenes">
         <h2>Tus órdenes</h2>
         <input type="text" placeholder="Buscar una orden..." />
-        <table>
+        <table className="tabla-ordenes">
           <thead>
             <tr>
               <th>#ORDEN</th>
               <th>Usuario</th>
-              <th>Fecha de órden</th>
-              <th>Total</th>
+              <th>Fecha de orden</th>
               <th>Estado</th>
-              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {ordenes.length === 0 ? (
-              <tr>
-                <td colSpan="6" style={{ textAlign: "center", padding: "20px" }}>
-                  No hay órdenes registradas.
+            {ordenes.map((orden, i) => (
+              <tr key={i}>
+                <td className="id">{orden.id}</td>
+                <td>{orden.usuario}</td>
+                <td>{orden.fecha}</td>
+                <td className={orden.estado === "Entregado" ? "entregado" : "porentregar"}>
+                  {orden.estado}
                 </td>
               </tr>
-            ) : (
-              ordenes.map((orden, i) => (
-                <tr key={i}>
-                  <td className="id">{orden.id}</td>
-                  <td>{orden.usuario}</td>
-                  <td>{orden.fecha}</td>
-                  <td>{orden.total}</td>
-                  <td className={orden.estado === "Entregado" ? "entregado" : "porentregar"}>
-                    {orden.estado}
-                  </td>
-                  <td><button className="btn-verdetalle">Ver detalle</button></td>
-                </tr>
-              ))
-            )}
+            ))}
           </tbody>
         </table>
       </div>
