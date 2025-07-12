@@ -1,5 +1,53 @@
 import { useState } from 'react'
+import personaUsuariaAPI from '../../api/personaUsuariaAPI';
 function Registro() {
+    const [form, setForm] = useState({
+    nombre: '',
+    apellido: '',
+    correo: '',
+    dni: '',
+    contrasena: '',
+    confirmar: '',
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (form.contrasena !== form.confirmar) {
+      setError('Las contraseñas no coinciden');
+      return;
+    }
+
+    try {
+      const nuevaPersona = {
+        nombre: `${form.nombre} ${form.apellido}`,
+        correo: form.correo,
+        dni: form.dni,
+        contrasena: form.contrasena,
+        celular: '', // puedes agregarlo si lo incluyes
+        estado: 'Activo',
+        categoria: 'USER',
+        foto: 'default.png',
+        fecha: moment().format('DD/MM/YYYY'),
+      };
+
+      await personaUsuariaAPI.create(nuevaPersona);
+      setMensaje('¡Registro exitoso!');
+      setError('');
+      setForm({
+        nombre: '',
+        apellido: '',
+        correo: '',
+        dni: '',
+        contrasena: '',
+        confirmar: '',
+      });
+    } catch (err) {
+      console.error('Error al registrar:', err);
+      setError('Ocurrió un error al registrar. Verifica los datos.');
+    }
+  };
+
     return (
       <main className="contenido-registro">
         <h2>Registro</h2>
