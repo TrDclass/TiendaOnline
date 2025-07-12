@@ -67,6 +67,7 @@ function App() {
             <Route path="/mis-datos" element={<DatosUsuario />} />
             <Route path="/mis-ordenes" element={<ContenidoUsuario />} />
             
+            
             {/* Rutas de Administración */}
             <Route path="/admin" element={<DashboardAdmin />} />
             <Route path="/admin/productos" element={<ListaProductos />} />

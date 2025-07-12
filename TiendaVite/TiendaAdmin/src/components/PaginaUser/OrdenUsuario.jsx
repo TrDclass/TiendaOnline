@@ -1,41 +1,73 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react';
+import personaUsuariaAPI from '../../api/personaUsuariaAPI';
 
 function ContenidoUsuario() {
-  const ordenes = [
-    { id: "#1234", usuario: "Simon The Digger", fecha: "20/01/2025", total: "S/199.00", estado: "Entregado" },
-    { id: "#1234", usuario: "María Gonzales", fecha: "20/01/2025", total: "S/199.00", estado: "Por entregar" },
-    { id: "#1234", usuario: "Marco Aurelio", fecha: "20/01/2025", total: "S/199.00", estado: "Entregado" },
-    { id: "#1234", usuario: "Ana Días", fecha: "20/01/2025", total: "S/199.00", estado: "Entregado" },
-    { id: "#1234", usuario: "Simon The Digger", fecha: "20/01/2025", total: "S/199.00", estado: "Entregado" },
-    { id: "#1234", usuario: "María Gonzales", fecha: "20/01/2025", total: "S/199.00", estado: "Por entregar" },
-    { id: "#1234", usuario: "Marco Aurelio", fecha: "20/01/2025", total: "S/199.00", estado: "Entregado" },
-    { id: "#1234", usuario: "Ana Días", fecha: "20/01/2025", total: "S/199.00", estado: "Entregado" },
-    { id: "#1234", usuario: "Simon The Digger", fecha: "20/01/2025", total: "S/199.00", estado: "Entregado" },
-    { id: "#1234", usuario: "María Gonzales", fecha: "20/01/2025", total: "S/199.00", estado: "Por entregar" },
-  ];
+  const [usuarios, setUsuarios] = useState([]);
+  const [ordenes, setOrdenes] = useState([]);
+
+  useEffect(() => {
+    const cargarDatos = async () => {
+      try {
+        const data = await personaUsuariaAPI.findAll();
+        setUsuarios(data);
+
+        // Simulación de órdenes por usuario
+        const ordenesSimuladas = data.map((usuario, i) => ({
+          id: 1000 + i,
+          usuario: usuario.nombre,
+          fecha: usuario.fecha,
+          estado: i % 2 === 0 ? 'Entregado' : 'Pendiente',
+        }));
+
+        setOrdenes(ordenesSimuladas);
+      } catch (error) {
+        console.error('Error al cargar datos:', error);
+      }
+    };
+
+    cargarDatos();
+  }, []);
+
+  const usuario = usuarios[0]; // Usamos el primer usuario como ejemplo
+
+  const getImageUrl = (foto) => `/img/${foto || 'default.png'}`;
 
   return (
     <div className="contenido-usuario">
-      <h1>Simon !</h1>
+      <h1>¡Bienvenido!</h1>
+
       <div className="info-datos">
         <div className="info-personal">
           <h3>Datos personales</h3>
-          <p><strong>Nombre:</strong> Simon The Digger</p>
-          <p><strong>Correo:</strong> <a href="https://www.google.com/search?sxsrf=AE3TifNA5sf10-eLeMZAINmp5r-xPdKYdg:1748549989903&q=Simon+The+Digger">Simon.Digger@gmail.com</a></p>
-          <p><strong>Fecha de registro:</strong> 20/01/2025</p>
+          {usuario ? (
+            <>
+              <p><strong>Nombre:</strong> {usuario.nombre}</p>
+              <p><strong>Correo:</strong> <a href={`mailto:${usuario.correo}`}>{usuario.correo}</a></p>
+              <p><strong>Fecha de registro:</strong> {usuario.fecha}</p>
+            </>
+          ) : (
+            <p>Cargando datos del usuario...</p>
+          )}
         </div>
+
         <div className="info-personal">
           <h3>Dirección de envío</h3>
-          <p>Av la molina 12334</p>
+          <p>Av. La Molina 12334</p>
           <p>Lima - Lima</p>
-          <p>Celular de contacto: 990882131</p>
+          <p>Celular de contacto: {usuario?.celular || 'Sin datos'}</p>
         </div>
+
         <div className="caja-orden">
-          <div className="numero-orden">Órdenes<br />12</div>
+          <div className="numero-orden">Órdenes<br />{ordenes.length}</div>
           <div className="cuadro-monto">Monto ahorrado<br />S/129</div>
         </div>
+
         <div className="fotoperfil">
-          <img src="/img/SimonTheDigger.webp" alt="Usuario" />
+          <img
+            src={getImageUrl(usuario?.foto)}
+            alt="Usuario"
+            onError={(e) => e.target.src = "/img/default.png"}
+          />
         </div>
       </div>
 
@@ -54,18 +86,26 @@ function ContenidoUsuario() {
             </tr>
           </thead>
           <tbody>
-            {ordenes.map((orden, i) => (
-              <tr key={i}>
-                <td className="id">{orden.id}</td>
-                <td>{orden.usuario}</td>
-                <td>{orden.fecha}</td>
-                <td>{orden.total}</td>
-                <td className={orden.estado === "Entregado" ? "entregado" : "porentregar"}>
-                  {orden.estado}
+            {ordenes.length === 0 ? (
+              <tr>
+                <td colSpan="6" style={{ textAlign: "center", padding: "20px" }}>
+                  No hay órdenes registradas.
                 </td>
-                <td><button className="btn-verdetalle">Ver detalle</button></td>
               </tr>
-            ))}
+            ) : (
+              ordenes.map((orden, i) => (
+                <tr key={i}>
+                  <td className="id">{orden.id}</td>
+                  <td>{orden.usuario}</td>
+                  <td>{orden.fecha}</td>
+                  <td>{orden.total}</td>
+                  <td className={orden.estado === "Entregado" ? "entregado" : "porentregar"}>
+                    {orden.estado}
+                  </td>
+                  <td><button className="btn-verdetalle">Ver detalle</button></td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
@@ -73,5 +113,4 @@ function ContenidoUsuario() {
   );
 }
 
-  export default ContenidoUsuario
-
+export default ContenidoUsuario;
